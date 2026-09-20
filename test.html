@@ -1,0 +1,41 @@
+<button onclick="openPDF()">View PDF</button>
+
+<div id="pdf-container"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+<script>
+function openPDF() {
+    const url = 'http://localhost:3000/uploads/1736265008302-dummy.pdf';
+    
+    const container = document.getElementById('pdf-container');
+    container.innerHTML = '';  // Clear previous content
+
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+
+    pdfjsLib.getDocument(url).promise.then(pdf => {
+        for (let i = 1; i <= pdf.numPages; i++) {
+            pdf.getPage(i).then(page => {
+                const canvas = document.createElement('canvas');
+                canvas.style.display = 'block';
+                canvas.style.margin = 'auto';
+                canvas.style.border = '1px solid black';
+                const ctx = canvas.getContext('2d');
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale });
+
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                page.render({
+                    canvasContext: ctx,
+                    viewport: viewport
+                });
+
+                container.appendChild(canvas);
+            });
+        }
+    });
+}
+</script>
+// test

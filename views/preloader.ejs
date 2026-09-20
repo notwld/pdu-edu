@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDU</title>
+</head>
+<style>
+    .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background-color: #fff;
+    }
+
+    .preloader .loading {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font: 14px arial;
+    }
+
+    .preloader .loading img {
+        width: 150px;
+    }
+
+    .preloader .loading p {
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+</style>
+<body>
+    <div class="preloader">
+        <div class="loading">
+            <img src="/assets/images/logo/logo.png" width="80">
+            <div class="spinner-border my-8" role="status">
+                
+              </div>
+        </div>
+    </div>
+
+    <script>
+        // Hide preloader after 4 seconds
+        setTimeout(function () {
+            document.querySelector(".preloader").style.display = "none";
+            document.querySelector("body").style.visibility = "visible";
+        }, 3000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow, max-snippet:500, max-image-preview:large, max-video-preview:-1">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdu-edu.org/">
+    <title>Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white py-7 px-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <div id="timer" class="text-lg font-semibold mx-10 bg-white rounded px-4 text-black py-3 shadow rounded-lg">
+                Time Left: <span id="time">10:00</span>
+            </div>
+            <div class="flex flex-col text-left">
+                <h1 class="text-2xl font-semibold">
+                    <%=test?.Course?.title %> - <%= test?.name %>
+                </h1>
+                <p class="text-lg">
+                    <%= test?.description %>
+                </p>
+            </div>
+        </div>
+        
+    </header>
+
+    <!-- Review Questions Modal -->
+    <div id="reviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <h2 class="text-2xl font-bold mb-4">Questions Marked for Review</h2>
+            <div id="reviewList" class="space-y-4"></div>
+            <div class="mt-6 flex justify-end space-x-4">
+                <button id="continueReview" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">
+                    Continue Review
+                </button>
+                <button id="submitAnyway" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-400">
+                    Submit Anyway
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pause Modal -->
+    <div id="pauseModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg flex flex-col items-center">
+            <h2 class="text-2xl font-bold mb-4">Test Paused</h2>
+            <p class="mb-4">Click Resume to continue with the test.</p>
+            <button id="resume" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-400">
+                Resume Test
+            </button>
+        </div>
+    </div>
+
+    <main class="container mx-auto mt-10 p-10 bg-white rounded shadow">
+        <div id="quiz-container"></div>
+        <div id="btnContainer" class="flex justify-center items-center gap-4">
+            <button id="prev" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-400 text-lg">Previous</button>
+            <button id="reset" class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-400 text-lg">Reset Answer</button>
+            <button id="review" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-400 text-lg">Review it
+                Later</button>
+                <button id="pause" class="px-4 py-2 text-white bg-gray-500 rounded hover:bg-yellow-400 text-lg">Pause
+                    Test</button>
+                    <button id="next" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-400 text-lg">Next</button>
+        </div>
+        <div id="score" class="hidden mt-6">
+            <p id="score-details" class="text-lg font-semibold"></p>
+        </div>
+    </main>
+
+    <script>
+        const questions = <%- JSON.stringify(test.MCQ) %>;
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        shuffleArray(questions);
+        const examTopics = [
+            {
+                exam: "PMP Exam",
+                domains: [
+                    "Domain I: People",
+                    "Domain II: Process",
+                    "Domain III: Business Environment"
+                ]
+            },
+            {
+                exam: "PMI Agile Exam",
+                domains: [
+                    "Agile Principles and Mindset",
+                    "Value-driven Delivery",
+                    "Stakeholder Engagement",
+                    "Team Performance",
+                    "Problem Detection and Resolution",
+                    "Continuous Improvement"
+                ]
+            },
+            {
+                exam: "Scrum Certified Product Owner Exam",
+                domains: [
+                    "Scrum Basics",
+                    "Roles & Responsibilities",
+                    "Product Vision",
+                    "Estimating",
+                    "Product Backlog",
+                    "Prioritizing",
+                    "Release Management",
+                    "Sprints"
+                ]
+            }
+        ];
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentQuestion = 0;
+            let userAnswers = new Array(questions.length).fill(null);
+            let answeredQuestions = new Set();
+            let reviewQuestions = new Set();
+            let isPaused = false;
+            const timerElement = document.getElementById('time');
+            const quizContainer = document.getElementById('quiz-container');
+            const pauseModal = document.getElementById('pauseModal');
+            const reviewModal = document.getElementById('reviewModal');
+
+            // Timer Logic
+            let timeLeft = 10800;
+            let timer;
+
+            const startTimer = () => {
+                timer = setInterval(() => {
+                    if (!isPaused) {
+                        timeLeft--;
+                        const minutes = Math.floor(timeLeft / 60);
+                        const seconds = timeLeft % 60;
+                        timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                        if (timeLeft <= 0) {
+                            clearInterval(timer);
+                            submitQuiz();
+                        }
+                    }
+                }, 1000);
+            };
+
+            startTimer();
+
+            // Pause functionality
+            document.getElementById('pause').addEventListener('click', () => {
+                isPaused = true;
+                pauseModal.classList.remove('hidden');
+                clearInterval(timer);
+            });
+
+            document.getElementById('resume').addEventListener('click', () => {
+                isPaused = false;
+                pauseModal.classList.add('hidden');
+                startTimer();
+            });
+
+            // Calculate category-wise scores
+            const calculateCategoryScores = () => {
+                const categories = {};
+                const examScores = {};
+                let totalCorrect = 0;
+                let totalQuestions = questions.length;
+
+                // Initialize exam scores structure
+                examTopics.forEach(examTopic => {
+                    examScores[examTopic.exam] = {
+                        total: 0,
+                        correct: 0,
+                        domains: {}
+                    };
+                    examTopic.domains.forEach(domain => {
+                        examScores[examTopic.exam].domains[domain] = {
+                            total: 0,
+                            correct: 0
+                        };
+                    });
+                });
+
+                questions.forEach((q, i) => {
+                    // Domain-wise tracking (existing logic)
+                    const category = q.questionCategory;
+                    if (!categories[category]) {
+                        categories[category] = {
+                            total: 0,
+                            correct: 0
+                        };
+                    }
+                    categories[category].total++;
+
+                    // Find corresponding exam for this domain
+                    let correspondingExam = null;
+                    for (const examTopic of examTopics) {
+                        if (examTopic.domains.includes(category)) {
+                            correspondingExam = examTopic.exam;
+                            break;
+                        }
+                    }
+
+                    if (correspondingExam) {
+                        examScores[correspondingExam].total++;
+                        examScores[correspondingExam].domains[category].total++;
+                    }
+
+                    const userAnswer = userAnswers[i] || [];
+                    let isCorrect = false;
+
+                    if (q.type === 'Match') {
+                        const correctMatches = [1, 2, 3, 4]
+                            .filter(num => q[`option${num}`] && q[`answer${num}`])
+                            .map(num => ({
+                                questionId: `q${num}`,
+                                answerId: `a${num}`,
+                            }));
+
+                        isCorrect = correctMatches.every(correctMatch =>
+                            userAnswer.some(userMatch =>
+                                userMatch.questionId === correctMatch.questionId &&
+                                userMatch.answerId === correctMatch.answerId
+                            )
+                        );
+                    } else {
+                        const correctAnswers = [q.answer1, q.answer2, q.answer3, q.answer4].filter(Boolean);
+                        isCorrect = JSON.stringify(userAnswer.sort()) === JSON.stringify(correctAnswers.sort());
+                    }
+
+                    if (isCorrect) {
+                        categories[category].correct++;
+                        totalCorrect++;
+                        if (correspondingExam) {
+                            examScores[correspondingExam].correct++;
+                            examScores[correspondingExam].domains[category].correct++;
+                        }
+                    }
+                });
+
+                // Calculate results
+                const results = {
+                    categories: Object.entries(categories).map(([name, data]) => ({
+                        name,
+                        percentage: (data.correct / data.total) * 100,
+                        correct: data.correct,
+                        total: data.total,
+                        passed: (data.correct / data.total) * 100 >= 75
+                    })),
+                    exams: Object.entries(examScores).map(([examName, examData]) => ({
+                        name: examName,
+                        percentage: (examData.correct / examData.total) * 100,
+                        correct: examData.correct,
+                        total: examData.total,
+                        passed: (examData.correct / examData.total) * 100 >= 75,
+                        domains: Object.entries(examData.domains)
+                            .filter(([_, domainData]) => domainData.total > 0)
+                            .map(([domainName, domainData]) => ({
+                                name: domainName,
+                                percentage: (domainData.correct / domainData.total) * 100,
+                                correct: domainData.correct,
+                                total: domainData.total,
+                                passed: (domainData.correct / domainData.total) * 100 >= 75
+                            }))
+                    })),
+                    overall: {
+                        percentage: (totalCorrect / totalQuestions) * 100,
+                        correct: totalCorrect,
+                        total: totalQuestions,
+                        passed: (totalCorrect / totalQuestions) * 100 >= 75
+                    }
+                };
+
+                return results;
+            };
+            const transformScoresForDB = (scores) => {
+    const categories = [];
+    
+    // Transform exam-level categories (parent categories)
+    scores.exams.forEach(exam => {
+        // Add exam as parent category
+        const examCategory = {
+            name: exam.name,
+            score: exam.percentage,
+            subCategories: exam.domains.map(domain => ({
+                name: domain.name,
+                score: domain.percentage,
+            }))
+        };
+        categories.push(examCategory);
+    });
+
+    return categories;
+};
+
+            const submitQuiz = () => {
+                // Handle review questions if any exist
+                if (reviewQuestions.size > 0) {
+                    const reviewList = document.getElementById('reviewList');
+                    reviewList.innerHTML = Array.from(reviewQuestions).map(qIndex => {
+                        const q = questions[qIndex];
+                        const userAns = userAnswers[qIndex];
+                        let answerDisplay = 'No answer selected';
+
+                        if (userAns) {
+                            if (q.type === 'Match') {
+                                answerDisplay = userAns.map(match =>
+                                    `${q[`option${match.questionId.replace('q', '')}`]} → ${q[`answer${match.answerId.replace('a', '')}`]}`
+                                ).join('<br>');
+                            } else {
+                                answerDisplay = userAns.join(', ');
+                            }
+                        }
+
+                        return `
+                <div class="border-b pb-4">
+                    <p class="font-semibold">Question ${qIndex + 1}</p>
+                    <p>${q.question}</p>
+                    <p class="mt-2"><strong>Your Answer:</strong><br>${answerDisplay}</p>
+                </div>
+            `;
+                    }).join('');
+
+                    reviewModal.classList.remove('hidden');
+                    return;
+                }
+
+                clearInterval(timer);
+                quizContainer.style.display = 'none';
+
+                // Calculate scores and generate detailed results
+                const scores = calculateCategoryScores();
+                const questionDetails = questions.map((q, i) => {
+                    const userAnswer = userAnswers[i] || [];
+                    let isCorrect = false;
+                    let correctAnswers = [];
+
+                    if (q.type === 'Match') {
+                        const correctMatches = [1, 2, 3, 4]
+                            .filter(num => q[`option${num}`] && q[`answer${num}`])
+                            .map(num => ({
+                                questionId: `q${num}`,
+                                answerId: `a${num}`,
+                            }));
+
+                        isCorrect = correctMatches.every(correctMatch =>
+                            userAnswer.some(userMatch =>
+                                userMatch.questionId === correctMatch.questionId &&
+                                userMatch.answerId === correctMatch.answerId
+                            )
+                        );
+
+                        correctAnswers = correctMatches.map(match => {
+                            const questionText = q[`option${match.questionId.replace('q', '')}`];
+                            const answerText = q[`answer${match.answerId.replace('a', '')}`];
+                            return `${questionText} → ${answerText}`;
+                        });
+                    } else {
+                        correctAnswers = [q.answer1, q.answer2, q.answer3, q.answer4].filter(Boolean);
+                        isCorrect = JSON.stringify(userAnswer.sort()) === JSON.stringify(correctAnswers.sort());
+                    }
+
+                    const userAnswerDisplay = userAnswer.length
+                        ? userAnswer.map((ans) => {
+                            if (typeof ans === "object" && ans.questionId && ans.answerId) {
+                                const questionId = ans.questionId;
+                                const answerId = ans.answerId;
+                                const questionText = q[`option${questionId.replace('q', '')}`];
+                                const answerText = q[`answer${answerId.replace('a', '')}`];
+                                return `<p class='text-left'>${questionText} → ${answerText}</p>`;
+                            }
+                            return `<p class='text-left'>${ans}</p>`;
+                        }).join('')
+                        : 'No answer provided';
+
+                    return `
+            <div class="mb-4 p-4 bg-${isCorrect ? 'green-100' : 'red-100'} rounded shadow">
+                <div class="flex justify-between items-start">
+                    <h3 class="text-left text-lg font-semibold">Q${i + 1}: ${isCorrect ? 'Correct' : 'Wrong'}</h3>
+                    <span class="text-sm font-medium px-2 py-1 rounded ${isCorrect ? 'bg-green-200' : 'bg-red-200'}">
+                        ${q.questionCategory || 'Uncategorized'}
+                    </span>
+                </div>
+                <p class="text-left text-gray-700 mt-2"><strong>Question:</strong> ${q.question}</p>
+                <p class="text-left text-gray-700 mt-2"><strong>Your Answer:</strong></p>
+                <div class="ml-4">${userAnswerDisplay}</div>
+                <p class="text-left text-gray-700 mt-2"><strong>Correct Answer:</strong></p>
+                <div class="ml-4">${correctAnswers.map(ans => `<p class='text-left'>${ans}</p>`).join('')}</div>
+                <p class="text-left text-gray-700 mt-2"><strong>Reason:</strong> ${q.reason || 'No reason provided'}</p>
+            </div>
+        `;
+                }).join('');
+
+                const resultsHtml = `
+<div class="space-y-8">
+    <h2 class="text-3xl font-semibold text-center mb-6">Test Result</h2>
+    
+    <div class="bg-gray-50 p-6 rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-4">Summary</h3>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+            
+            <div class="p-4 ${scores.overall.passed ? 'bg-green-50' : 'bg-red-50'} rounded">
+                <p class="font-medium">Overall Score: ${scores.overall.correct}/${scores.overall.total} (${scores.overall.percentage.toFixed(1)}%)</p>
+                <p class="font-medium">Time Taken: ${((10800 - timeLeft) / 60).toFixed(2)} minutes</p>
+                <p class="font-medium">Total Questions: ${scores.overall.total} (${scores.overall.correct} correct)</p>
+            </div>
+            <div class="p-4 bg-blue-50 rounded">
+                ${scores.exams.map(exam => `
+                    <div class="mb-2">
+                            <p class="font-medium">${exam.name} - ${exam.correct}/${exam.total} (${exam.percentage.toFixed(1)}%)</p>
+                            <div class="mt-2 bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full mr-2 mt-2" style="width: ${exam.percentage}%"></div>
+                        </div>
+                    </div>
+                `).join('')}
+                </div>
+        </div>
+        
+        
+        <div class="mb-6">
+            <h4 class="text-lg font-semibold mb-3">Domain-wise Performance</h4>
+            ${scores.categories.map(cat => `
+                <div class="mb-4 p-4 ${cat.passed ? 'bg-green-50' : 'bg-red-50'} rounded">
+                    <h5 class="font-medium">${cat.name}</h5>
+                    <div class="flex justify-between items-center mt-2">
+                        <span>Score: ${cat.correct}/${cat.total} (${cat.percentage.toFixed(1)}%)</span>
+                        <span class="px-2 py-1 rounded ${cat.passed ? 'bg-green-200' : 'bg-red-200'}">
+                            ${cat.passed ? 'PASSED' : 'FAILED'}
+                        </span>
+                    </div>
+                    <div class="mt-2 bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${cat.percentage}%"></div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    </div>
+
+    <div class="mt-8">
+        <h3 class="text-xl font-semibold mb-4">Detailed Question Analysis</h3>
+        ${questionDetails}
+    </div>
+</div>`;
+
+                // Update the UI
+                document.getElementById('score').classList.remove('hidden');
+                document.getElementById('score-details').innerHTML = resultsHtml;
+                document.getElementById("btnContainer").innerHTML = `
+        <a href="/my-learnings" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-400 text-lg">Back to Dashboard</a>
+    `;
+
+                // Submit the results
+                const makeAttempt = async () => {
+    try {
+        // Calculate scores using existing function
+        const scores = calculateCategoryScores();
+        
+        // Transform scores into database format
+        const categoriesForDB = transformScoresForDB(scores);
+        
+        // Prepare attempt data
+        const attemptData = {
+            isPassed: scores.overall.passed,
+            total: scores.overall.total,
+            correct: scores.overall.correct,
+            testId: <%= test.id %>,
+            categories: categoriesForDB
+        };
+
+        // Make API call to save attempt
+        const response = await fetch('/api/make-attempt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(attemptData)
+        });
+
+        const data = await response.json();
+        console.log('Attempt submitted:', data);
+        
+        // You might want to show a success message or redirect
+        if (data.success) {
+            console.log('Test results saved successfully');
+        } else {
+            console.error('Error saving test results:', data.error);
+        }
+    } catch (error) {
+        console.error('Error submitting attempt:', error);
+    }
+};
+makeAttempt();
+            };
+            // Review modal handlers
+            document.getElementById('continueReview').addEventListener('click', () => {
+                checkAndProceed();
+                reviewModal.classList.add('hidden');
+            });
+
+            document.getElementById('submitAnyway').addEventListener('click', () => {
+                reviewModal.classList.add('hidden');
+                reviewQuestions.clear();
+                submitQuiz();
+            });
+            const checkAndProceed = () => {
+                if (reviewQuestions.size > 0) {
+                    const reviewArray = Array.from(reviewQuestions);
+
+
+                    // Start rendering the review questions
+                    currentQuestion = reviewArray.shift();
+                    reviewQuestions = new Set(reviewArray); // Remove the current question from the review list
+                    renderQuestion();
+                } else {
+                    submitQuiz();
+                }
+            };
+
+            const reviewBtn = document.getElementById('review');
+            reviewBtn.addEventListener('click', () => {
+                // Add current question to the review list
+                reviewQuestions.add(currentQuestion);
+
+                // Save the current answer (if any)
+                saveAnswer();
+                const question = questions[currentQuestion];
+                if (question.type === 'Match') {
+                    // Reset matching question
+                    const options = document.querySelectorAll('.match-option');
+                    const answers = document.querySelectorAll('.match-answer');
+                    const colors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200'];
+
+                    options.forEach(option => {
+                        colors.forEach(color => option.classList.remove(color));
+                    });
+                    answers.forEach(answer => {
+                        colors.forEach(color => answer.classList.remove(color));
+                    });
+                } else {
+                    // Reset radio/checkbox inputs
+                    const inputs = document.querySelectorAll('input[name="answer"]');
+                    inputs.forEach(input => input.checked = false);
+                }
+
+                // Clear the answer from storage
+                userAnswers[currentQuestion] = null;
+                answeredQuestions.delete(currentQuestion);
+
+                // Move to the next question or call review phase
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    renderQuestion();
+                } else {
+                    checkAndProceed();
+                }
+            });
+            const resetCurrentQuestion = () => {
+                const question = questions[currentQuestion];
+                if (question.type === 'Match') {
+                    // Reset matching question
+                    const options = document.querySelectorAll('.match-option');
+                    const answers = document.querySelectorAll('.match-answer');
+                    const colors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-red-200'];
+
+                    options.forEach(option => {
+                        colors.forEach(color => option.classList.remove(color));
+                    });
+                    answers.forEach(answer => {
+                        colors.forEach(color => answer.classList.remove(color));
+                    });
+                } else {
+                    // Reset radio/checkbox inputs
+                    const inputs = document.querySelectorAll('input[name="answer"]');
+                    console.log(inputs);
+                    inputs.forEach(input => input.checked = false);
+                }
+
+                // Clear the answer from storage
+                userAnswers[currentQuestion] = null;
+                answeredQuestions.delete(currentQuestion);
+            };
+            const resetBtn = document.getElementById('reset');
+            resetBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to reset your answer for this question?')) {
+                    resetCurrentQuestion();
+                }
+            });
+
+            const renderQuestion = () => {
+                // Skip already answered questions
+                if (answeredQuestions.has(currentQuestion)) {
+                    checkAndProceed();
+                    return;
+                }
+
+                const question = questions[currentQuestion];
+                quizContainer.innerHTML = '';
+
+                // Calculate progress percentage
+                const answeredCount = answeredQuestions.size;
+                const progress = (answeredCount / questions.length) * 100;
+                const reviewCount = reviewQuestions.size;
+
+                const questionHtml = `
+        <div class="w-full mx-15 p-6">
+            <!-- Progress Section -->
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium">Progress</span>
+                    <span class="text-sm font-medium">${answeredCount}/${questions.length}</span>
+                </div>
+                <div class="w-full h-2 bg-gray-200 rounded-full">
+                    <div class="h-2 bg-blue-600 rounded-full transition-all duration-300" 
+                         style="width: ${progress}%"></div>
+                </div>
+                <div class="flex justify-between mt-2 text-sm text-gray-600">
+                    <span>Answered: ${answeredCount}</span>
+                    <span>Marked for Review: ${reviewCount}</span>
+                </div>
+            </div>
+
+            <!-- Question Header -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                        Question ${currentQuestion + 1} of ${questions.length}
+                    </span>
+                    <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                        ${question.questionCategory || 'Uncategorized'}
+                    </span>
+                </div>
+                
+                <h2 class="text-xl font-semibold leading-relaxed mb-4">${question.question}</h2>
+                
+                ${reviewQuestions.has(currentQuestion) ? `
+                    <div class="flex items-center bg-yellow-50 text-yellow-800 px-4 py-2 rounded-md">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <span>This question is marked for review</span>
+                    </div>` : ''}
+            </div>`;
+
+                // Generate options based on question type
+                let optionsHtml = '';
+
+                if (question.type === 'Match') {
+                    const colors = ['bg-blue-100', 'bg-green-100', 'bg-yellow-100', 'bg-purple-100'];
+                    optionsHtml = `
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex flex-col md:flex-row md:space-x-6">
+                    <div id="options" class="w-full md:w-1/2 space-y-3">
+                        <h3 class="font-medium text-gray-700 mb-3">Match these items</h3>
+                        ${[1, 2, 3, 4].map((i, idx) => question[`option${i}`] ? `
+                            <div class="p-4 border border-gray-200 ${colors[idx]} rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md match-option"
+                                data-id="q${i}" data-color="${colors[idx]}">
+                                <p class="text-lg text-center">${question[`option${i}`]}</p>
+                            </div>` : '').join('')}
+                    </div>
+                    <div id="answers" class="w-full md:w-1/2 space-y-3 mt-4 md:mt-0">
+                        <h3 class="font-medium text-gray-700 mb-3">With the correct matches</h3>
+                        ${[1, 2, 3, 4].map((i, idx) => question[`answer${i}`] ? `
+                            <div class="p-4 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md match-answer"
+                                data-id="a${i}" data-color="${colors[idx]}">
+                                <p class="text-lg text-center">${question[`answer${i}`]}</p>
+                            </div>` : '').join('')}
+                    </div>
+                </div>
+            </div>`;
+                } else {
+                    optionsHtml = `
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="space-y-3">
+                    ${[1, 2, 3, 4].map(i => question[`option${i}`] ? `
+                        <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50">
+                            <input type="${question.type === 'Multiple' ? 'checkbox' : 'radio'}" 
+                                   name="answer" 
+                                   value="${question[`option${i}`]}" 
+                                   class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg">${question[`option${i}`]}</span>
+                        </label>` : '').join('')}
+                </div>
+            </div>`;
+                }
+
+
+
+                quizContainer.innerHTML = questionHtml + optionsHtml;
+
+                if (question.type === 'Match') {
+                    setupMatching();
+                }
+
+                // Restore previous answers for non-matching questions
+                if (userAnswers[currentQuestion] && question.type !== 'Match') {
+                    const answers = userAnswers[currentQuestion];
+                    answers.forEach(answer => {
+                        const input = document.querySelector(`input[value="${answer}"]`);
+                        if (input) input.checked = true;
+                    });
+                }
+
+                // Add event listeners for keyboard navigation
+                document.addEventListener('keydown', handleKeyboardNavigation);
+            };
+
+            // Keyboard navigation handler
+            const handleKeyboardNavigation = (e) => {
+                if (e.key === 'ArrowLeft' && currentQuestion > 0) {
+                    prevQuestion();
+                } else if (e.key === 'ArrowRight' && currentQuestion < questions.length - 1) {
+                    nextQuestion();
+                }
+            };
+
+            const setupMatching = () => {
+    let selectedOption = null;
+    const options = document.querySelectorAll('.match-option');
+    const answers = document.querySelectorAll('.match-answer');
+    const colors = ['bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-purple-200'];
+    const matches = new Map();
+
+    // Restore previous matches if they exist
+    if (userAnswers[currentQuestion]) {
+        userAnswers[currentQuestion].forEach(match => {
+            const option = document.querySelector(`[data-id="${match.questionId}"]`);
+            const answer = document.querySelector(`[data-id="${match.answerId}"]`);
+            if (option && answer) {
+                const colorIndex = parseInt(match.questionId.replace('q', '')) - 1;
+                option.classList.add(colors[colorIndex]);
+                answer.classList.add(colors[colorIndex]);
+                matches.set(match.questionId, match.answerId);
+            }
+        });
+    }
+
+    // Clear selection function
+    const clearSelection = () => {
+        if (selectedOption) {
+            selectedOption.classList.remove('ring-2', 'ring-blue-500');
+            selectedOption = null;
+        }
+    };
+
+    // Option click handler
+    options.forEach(option => {
+        option.addEventListener('click', () => {
+            if (selectedOption === option) {
+                clearSelection();
+            } else {
+                clearSelection();
+                selectedOption = option;
+                option.classList.add('ring-2', 'ring-blue-500');
+            }
+        });
+    });
+
+    // Answer click handler
+    answers.forEach(answer => {
+        answer.addEventListener('click', () => {
+            if (!selectedOption) return;
+
+            const questionId = selectedOption.dataset.id;
+            const answerId = answer.dataset.id;
+            const colorIndex = parseInt(questionId.replace('q', '')) - 1;
+
+            // Remove previous match for this color
+            options.forEach(opt => matches.forEach((val, key) => {
+                if (val === answerId || key === questionId) {
+                    const oldOption = document.querySelector(`[data-id="${key}"]`);
+                    const oldAnswer = document.querySelector(`[data-id="${val}"]`);
+                    if (oldOption) oldOption.classList.remove(...colors);
+                    if (oldAnswer) oldAnswer.classList.remove(...colors);
+                    matches.delete(key);
+                }
+            }));
+
+            // Create new match
+            matches.set(questionId, answerId);
+            selectedOption.classList.remove('ring-2', 'ring-blue-500');
+            selectedOption.classList.add(colors[colorIndex]);
+            answer.classList.add(colors[colorIndex]);
+
+            // Update userAnswers
+            userAnswers[currentQuestion] = Array.from(matches.entries()).map(([qId, aId]) => ({
+                questionId: qId,
+                answerId: aId
+            }));
+
+            clearSelection();
+        });
+    });
+};
+
+            const saveAnswer = () => {
+                const question = questions[currentQuestion];
+                if (question.type !== 'Match') {
+                    const inputs = [...document.querySelectorAll('input[name="answer"]:checked')];
+                    const answers = inputs.map(input => input.value);
+                    if (answers.length > 0) {
+                        userAnswers[currentQuestion] = answers;
+                        answeredQuestions.add(currentQuestion);
+                    }
+                } else {
+                    // Matching questions are saved in the setupMatching function
+                    if (userAnswers[currentQuestion] && userAnswers[currentQuestion].length > 0) {
+                        answeredQuestions.add(currentQuestion);
+                    }
+                }
+            };
+
+
+
+
+            // Navigation
+            document.getElementById('prev').addEventListener('click', () => {
+                if (currentQuestion > 0) {
+                    saveAnswer();
+                    currentQuestion--;
+                    renderQuestion();
+                }
+            });
+
+            document.getElementById('next').addEventListener('click', () => {
+                const question = questions[currentQuestion];
+                let hasSelectedOption = false;
+
+                if (question.type === 'Match') {
+                    // For matching questions, check if any matches exist
+                    hasSelectedOption = userAnswers[currentQuestion] && userAnswers[currentQuestion].length > 0;
+                } else {
+                    // For single and multiple choice questions, check if any options are selected
+                    const inputs = document.querySelectorAll('input[name="answer"]:checked');
+                    hasSelectedOption = inputs.length > 0;
+                }
+
+                if (!hasSelectedOption) {
+                    alert('Please select an option before proceeding.');
+                    return;
+                }
+
+                if (currentQuestion < questions.length - 1) {
+                    saveAnswer();
+                    currentQuestion++;
+                    renderQuestion();
+                } else {
+                    saveAnswer();
+                    submitQuiz();
+                }
+            });
+
+            renderQuestion();
+
+
+        });
+    </script>
+</body>
+
+</html>

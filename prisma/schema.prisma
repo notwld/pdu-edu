@@ -1,0 +1,393 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String
+  email    String  @unique
+  password String
+  role     Role?   @relation(fields: [roleId], references: [id])
+  roleId   Int?
+  cohort   String?
+  Test     Test[]
+
+  // Relations to Course for instructors and students
+  coursesTaught Course[] @relation("CourseInstructors")
+  coursesTaken  Course[] @relation("CourseStudents")
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  Review        Review[]
+  Rating        Rating[]
+  Notification  Notification[]
+  Enrollment    Enrollment[]
+  UserProgress  UserProgress[]
+  Attempt       Attempt[]
+  ForumComments ForumComment[]
+  ForumReplies  ForumReply[]
+  createdForums Forum[]        @relation("ForumCreator")
+
+  // Add relations for last activity
+  lastActivityForums   Forum[]            @relation("LastActivity")
+  lastActivityComments ForumComment[]     @relation("CommentLastActivity")
+  CouponRedemption     CouponRedemption[]
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  users       User[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  permissions Permission[]
+}
+
+model UserProgress {
+  id           Int      @id @default(autoincrement())
+  userId       Int?
+  courseId     Int
+  chapterIndex Int
+  moduleIndex  Int
+  completed    Boolean  @default(false)
+  updatedAt    DateTime @updatedAt
+
+  user   User?  @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId, chapterIndex, moduleIndex]) // Define composite unique key
+}
+
+model Certificate {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  courseId       Int
+  issuedAt       DateTime @default(now())
+  certificateUrl String // Link to the certificate
+}
+
+model Participant {
+  id            Int         @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  businessEmail String
+  companyName   String
+  jobTitle      String
+  workPhone     String
+  address       String
+  city          String
+  country       String
+  state         String
+  zipCode       String
+  comments      String
+  isVirtual     Boolean
+  isSelfPaced   Boolean
+  Enrollment    Enrollment? @relation(fields: [enrollmentId], references: [id])
+  enrollmentId  Int?
+}
+
+model Billing {
+  id            Int          @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  businessEmail String
+  companyName   String
+  jobTitle      String
+  workPhone     String
+  address       String
+  city          String
+  country       String
+  state         String
+  zipCode       String
+  Enrollment    Enrollment[]
+}
+
+model Enrollment {
+  id           Int           @id @default(autoincrement())
+  status       String        @default("Pending")
+  subtotal     Float
+  csaPrice     Boolean
+  paymentType  String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  participants Participant[]
+  courseId     Int
+  course       Course        @relation(fields: [courseId], references: [id])
+  billingId    Int
+  billing      Billing       @relation(fields: [billingId], references: [id])
+  userId       Int?
+  user         User?         @relation(fields: [userId], references: [id])
+}
+
+model Permission {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  roles     Role[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Test {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String
+  duration    Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  User     User?     @relation(fields: [userId], references: [id])
+  userId   Int?
+  MCQ      MCQ[]
+  Attempt  Attempt[]
+  Course   Course?   @relation(fields: [courseId], references: [id])
+  courseId Int
+}
+
+model MCQ {
+  id               Int      @id @default(autoincrement())
+  question         String
+  type             String
+  option1          String
+  option2          String?
+  option3          String?
+  option4          String?
+  answer1          String
+  answer2          String?
+  answer3          String?
+  answer4          String?
+  reason           String?
+  questionCategory String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  Test   Test? @relation(fields: [testId], references: [id])
+  testId Int?
+}
+
+model Category {
+  id            Int        @id @default(autoincrement())
+  name          String
+  score         Float
+  parentId      Int? // Optional parent category ID
+  parent        Category?  @relation(name: "CategoryHierarchy", fields: [parentId], references: [id])
+  subCategories Category[] @relation(name: "CategoryHierarchy")
+  Attempt       Attempt?   @relation(fields: [attemptId], references: [id])
+  attemptId     Int?
+}
+
+model Attempt {
+  id         Int        @id @default(autoincrement())
+  isPassed   Boolean    @default(false)
+  total      Int        @default(0)
+  correct    Int        @default(0)
+  categories Category[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  testId Int?
+  userId Int?
+  Test   Test? @relation(fields: [testId], references: [id])
+  User   User? @relation(fields: [userId], references: [id])
+}
+
+model Resourse {
+  id       Int    @id @default(autoincrement())
+  title    String
+  url      String
+  courseId Int
+  course   Course @relation(fields: [courseId], references: [id])
+}
+
+model Book {
+  id       Int    @id @default(autoincrement())
+  title    String
+  url      String
+  courseId Int
+  course   Course @relation(fields: [courseId], references: [id])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  data      String
+}
+
+model Course {
+  id             Int        @id @default(autoincrement())
+  title          String     @unique
+  thumbnail      String     @default("https://source.unsplash.com/random")
+  slug           String?
+  description    String     @default("")
+  totalEnrolled  Int        @default(0)
+  keyFeatures    String[]
+  books          Book[]
+  resources      Resourse[]
+  targetAudience String?    @default("")
+  deadline       DateTime?  @default(dbgenerated("NOW() + INTERVAL '1 month'"))
+  duration       Int        @default(0) // Duration in days
+  accessibility  String?    @default("Public")
+  level          String     @default("Beginner")
+  language       String     @default("English")
+  category       String?    @default("General")
+  price          Float      @default(0)
+  totalDuration  Int        @default(0) // Duration in minutes
+  totalRating    Float      @default(0)
+
+  // Schedule and timing fields
+  scheduleDays String[]  @default(["Monday", "Tuesday", "Wednesday", "Thursday"]) // Days of the week when course runs
+  startTime    String    @default("10:00") // Session start time in HH:MM format
+  endTime      String    @default("18:00") // Session end time in HH:MM format  
+  timeFormat   String    @default("24") // "12" for AM/PM, "24" for 24-hour format
+  timezone     String    @default("EST") // Timezone for the schedule
+  startDate    DateTime? // Course start date (e.g., Aug 12, 2024)
+  endDate      DateTime? // Course end date (e.g., Aug 14, 2024)
+
+  instructors  User[]         @relation("CourseInstructors")
+  students     User[]         @relation("CourseStudents")
+  reviews      Review[]
+  ratings      Rating[]
+  chapters     Chapter[]
+  tests        Test[]
+  forums       Forum[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Enrollment   Enrollment[]
+  UserProgress UserProgress[]
+}
+
+model Chapter {
+  id      Int      @id @default(autoincrement())
+  title   String
+  modules Module[]
+
+  courseId Int
+  course   Course @relation(fields: [courseId], references: [id])
+}
+
+model Module {
+  id       Int      @id @default(autoincrement())
+  title    String
+  videoUrl String
+  duration Float    @default(0.0)
+  points   String[]
+
+  chapterId Int
+  chapter   Chapter @relation(fields: [chapterId], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  content   String
+  rating    Int // Rating value out of 5
+  createdAt DateTime @default(now())
+  status    String   @default("Pending") // Status can be "Pending", "Approved", or "Rejected"
+
+  courseId  Int
+  course    Course @relation(fields: [courseId], references: [id])
+  studentId Int
+  student   User   @relation(fields: [studentId], references: [id])
+}
+
+model Rating {
+  id    Int   @id @default(autoincrement())
+  score Float // Score value for detailed ratings
+
+  courseId  Int
+  course    Course @relation(fields: [courseId], references: [id])
+  studentId Int
+  student   User   @relation(fields: [studentId], references: [id])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  message   String
+  link      String
+  isSeen    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  userId Int?
+  user   User? @relation(fields: [userId], references: [id])
+}
+
+model Forum {
+  id               Int            @id @default(autoincrement())
+  title            String
+  description      String
+  isActive         Boolean        @default(true)
+  expiresAt        DateTime?
+  autoExpireAfter  Int? // Duration in hours for automatic expiration
+  viewCount        Int            @default(0)
+  lastActivityAt   DateTime       @default(now())
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  courseId         Int
+  course           Course         @relation(fields: [courseId], references: [id])
+  comments         ForumComment[]
+  createdById      Int? // ID of the user who created the forum
+  createdBy        User?          @relation("ForumCreator", fields: [createdById], references: [id])
+  lastActivityBy   Int?
+  lastActivityUser User?          @relation("LastActivity", fields: [lastActivityBy], references: [id])
+
+  @@index([lastActivityAt])
+}
+
+model ForumComment {
+  id               Int          @id @default(autoincrement())
+  content          String
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  userId           Int
+  user             User         @relation(fields: [userId], references: [id])
+  forumId          Int
+  forum            Forum        @relation(fields: [forumId], references: [id])
+  replies          ForumReply[]
+  lastActivityAt   DateTime     @default(now())
+  lastActivityBy   Int?
+  lastActivityUser User?        @relation("CommentLastActivity", fields: [lastActivityBy], references: [id])
+}
+
+model ForumReply {
+  id           Int          @id @default(autoincrement())
+  content      String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  userId       Int
+  user         User         @relation(fields: [userId], references: [id])
+  commentId    Int
+  forumComment ForumComment @relation(fields: [commentId], references: [id])
+}
+
+// Coupons for discounts
+model Coupon {
+  id           Int       @id @default(autoincrement())
+  code         String    @unique
+  type         String // "percentage" or "fixed"
+  value        Float
+  isActive     Boolean   @default(true)
+  startsAt     DateTime?
+  endsAt       DateTime?
+  usageLimit   Int? // total number of redemptions allowed
+  perUserLimit Int? // number of redemptions allowed per user
+  minSubtotal  Float? // minimum subtotal required to apply
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  redemptions CouponRedemption[]
+}
+
+model CouponRedemption {
+  id           Int      @id @default(autoincrement())
+  couponId     Int
+  userId       Int?
+  enrollmentId Int?
+  amount       Float // discount amount applied
+  createdAt    DateTime @default(now())
+
+  coupon Coupon @relation(fields: [couponId], references: [id])
+  user   User?  @relation(fields: [userId], references: [id])
+}

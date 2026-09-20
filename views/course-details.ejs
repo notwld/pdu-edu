@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="<%= course.description %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow, max-snippet:500, max-image-preview:large, max-video-preview:-1">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdu-edu.org/courses/<%= course.slug %>">
+    <title>
+        <%= course.title %>
+    </title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/logo/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- select2 -->
+    <link rel="stylesheet" href="/assets/css/select2.min.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <!-- jquery-ui -->
+    <link rel="stylesheet" href="/assets/css/jquery-ui.css">
+    <!-- plyr Css -->
+    <link rel="stylesheet" href="/assets/css/plyr.css">
+    <!-- animate -->
+    <link rel="stylesheet" href="/assets/css/animate.css">
+
+    <link rel="stylesheet" href="/assets/css/aos.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+    <%- include('header'); -%>
+
+        <section class="breadcrumb py-120 bg-main-25 position-relative z-1 overflow-hidden mb-0">
+            <img src="/assets/images/shapes/shape1.png" alt="shape-1"
+                class="shape one animation-rotation d-md-block d-none">
+            <img src="/assets/images/shapes/shape2.png" alt="shape-2"
+                class="shape two animation-scalation d-md-block d-none">
+            <img src="/assets/images/shapes/shape3.png" alt="shape-3"
+                class="shape eight animation-walking d-md-block d-none">
+            <img src="/assets/images/shapes/shape5.png" alt="shape-4"
+                class="shape six animation-walking d-md-block d-none">
+            <img src="/assets/images/shapes/shape4.png" alt="shape-5" class="shape four animation-scalation">
+            <img src="/assets/images/shapes/shape4.png" alt="shape-6" class="shape nine animation-scalation">
+
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="breadcrumb__wrapper">
+                            <h1 class="breadcrumb__title display-4 fw-semibold text-center">
+                                <%= course.title %>
+                            </h1>
+                            <ul class="breadcrumb__list d-flex align-items-center justify-content-center gap-4">
+                                <li class="breadcrumb__item">
+                                    <a href="/index"
+                                        class="breadcrumb__link text-neutral-500 hover-text-main-600 fw-medium">
+                                        <i class="text-lg d-inline-flex ph-bold ph-house"></i> Home</a>
+                                </li>
+                                <li class="breadcrumb__item">
+                                    <i class="text-neutral-500 d-flex ph-bold ph-caret-right"></i>
+                                </li>
+                                <li class="breadcrumb__item">
+                                    <a href="/courses"
+                                        class="breadcrumb__link text-neutral-500 hover-text-main-600 fw-medium">
+                                        Courses</a>
+                                </li>
+                                <li class="breadcrumb__item ">
+                                    <i class="text-neutral-500 d-flex ph-bold ph-caret-right"></i>
+                                </li>
+                                <li class="breadcrumb__item">
+                                    <span class="text-main-two-600">
+                                        <%= course.title %>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Message Display Section -->
+        <% if (typeof message !== 'undefined' && message) { %>
+        <div class="container mt-3">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <%= message %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <% } %>
+        
+        <section class="course-details py-120">
+            <div class="container">
+                <div class="row gy-4">
+                    <div class="col-xl-8">
+                        <div class="course-details__content border border-neutral-30 rounded-12 bg-main-25 p-12">
+                            <!-- <img src="assets/images/thumbs/course-details-img.png" alt="" class="rounded-8 cover-img"> -->
+                            <div class="p-20">
+                                <h2 class="mt-24 mb-24">
+                                    <%= course.title %>
+                                </h2>
+                                <p class="text-neutral-700">
+                                    <%= course.description %>
+                                </p>
+                                <span class="d-block border-bottom border-main-100 my-32"></span>
+                                <h3 class="mb-16">How will you benefit from this course:</h3>
+                                <ul class="list-dotted d-flex flex-column gap-24">
+                                    <% course.keyFeatures.forEach(learning=> { %>
+                                        <li>
+                                            <%= learning %>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                                <span class="d-block border-bottom border-main-100 my-32"></span>
+                                <h4 class="mb-16">Why choose this course?</h4>
+                                <ul class="list-dotted d-flex flex-column gap-24">
+                                    <li>Comprehensive curriculum: Cover all essential aspects, from the basics to advanced topics, ensuring a well-rounded understanding of the language encompassing the five parts of the PMI-PMP® Certification Exam areas of interest:
+                                        <ul class="list-dotted d-flex flex-column gap-12 mt-12 ms-4">
+                                            <li>Part 1: Creating a High Performing Team</li>
+                                            <li>Part 2: Starting the Project</li>
+                                            <li>Part 3: Doing the Work</li>
+                                            <li>Part 4: Keeping the Team on Track</li>
+                                            <li>Part 5: Keeping the Business in Mind</li>
+                                        </ul>
+                                    </li>
+                                    <li>Expert instruction: Learn from experienced project managers, scrum masters, and agile practitioners who bring real-world insights and practical knowledge to both face-to-face and virtual classroom instruction.</li>
+                                    <li>Hands on Learning: Engage in interactive project management focused exercises that reinforce your learning and provide practical experience.</li>
+                                    <li>Supportive community: Benefit from a supportive learning environment with access to the course forum, where you can ask questions, share insights, and collaborate with fellow learners.</li>
+                                    <li>Open doors to career advancement: Embracing challenges and broadening skill sets for pivotal for career advancement through successful training and exam completion.</li>
+                                </ul>
+                                
+                                <span class="d-block border-bottom border-main-100 my-32"></span>
+                                <h4 class="mb-16">Course Accessibility:</h4>
+                                <ul class="list-dotted d-flex flex-column gap-24">
+                                    <li>Professionals seeking a flexible study schedule that fits around work and personal commitments</li>
+                                    <li>Aspiring project managers aiming to earn the globally recognized PMP certification</li>
+                                    <li>Experienced project managers needing structured review to refresh and validate their knowledge</li>
+                                    <li>Self-motivated learners who prefer to study at their own pace, anytime and anywhere</li>
+                                    <li>Individuals preparing to take the PMP exam for the first time or retaking it for a better score</li>
+                                    <li>Team leaders and coordinators transitioning into formal project management roles</li>
+                                    <li>Professionals in industries like IT, construction, healthcare, or finance looking to advance their careers</li>
+                                    <li>International candidates who need time-zone independent access to study materials and practice exams</li>
+                                </ul>
+                                
+                                <span class="d-block border-bottom border-main-100 my-32"></span>
+                                <h4 class="mb-16">Who is the On-Demand Program tailored for:</h4>
+                                <ul class="list-dotted d-flex flex-column gap-24">
+                                    <li>Flexible Study Timeline – Learn at your own pace without pressure, allowing time to absorb and apply concepts effectively.</li>
+                                    <li>Schedule-Friendly – Ideal for busy professionals who need to balance study time with work and personal commitments.</li>
+                                    <li>Ample Review Time – Revisit lessons, quizzes, and mock exams multiple times to reinforce learning and build confidence.</li>
+                                    <li>Self-Paced Learning – Control your learning environment and focus on topics where you need the most improvement.</li>
+                                    <li>Progress Tracking – Monitor your development over three months, identifying strengths and areas that need more attention.</li>
+                                    <li>Exam Readiness – Prepare thoroughly and reduce exam anxiety by consistently practicing over a longer timeframe.</li>
+                                    <li>Cost-Effective – Get extended value from your investment without the need to rush or re-enroll.</li>
+                                    <li>Access to Updated Content – Stay aligned with the latest PMI exam standards and best practices throughout your study period.</li>
+                                </ul>
+                                
+                                <span class="d-block border-bottom border-main-100 my-32"></span>
+                                <h6 class="mb-16">Enroll Today:</h6>
+                                <ul class="list-dotted d-flex flex-column gap-24">
+                                    <li>Take the first step towards mastering <%= course.title %>. Enroll now and start
+                                            your journey to becoming proficient in <%= course.category || "this field"
+                                                %>!</li>
+
+                                </ul>
+                                <p class="mt-24 text-neutral-700">This detailed overview should give potential students
+                                    a
+                                    clear understanding of what they can expect from the course and the benefits of
+                                    enrolling. Feel free to adjust any part of it to better fit your specific course
+                                    offerings. Let me know if you need further customization or additional details!</p>
+                            </div>
+                        </div>
+                        <div class="border border-neutral-30 rounded-12 bg-main-25 p-32 mt-24">
+                            <h5 class="mb-0">Focus of Curriculum</h5>
+                            <span class="d-block border border-neutral-30 my-24 border-dashed"></span>
+                            <div class="accordion common-accordion style-three" id="accordionExampleTwo">
+                                <% course.chapters.forEach((chapter, chapterIndex)=> { %>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button
+                                                class="accordion-button <%= chapterIndex === 0 ? '' : 'collapsed' %>"
+                                                type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseChapter<%= chapterIndex %>"
+                                                aria-expanded="<%= chapterIndex === 0 %>"
+                                                aria-controls="collapseChapter<%= chapterIndex %>">
+                                                <%= chapter.title %>
+                                            </button>
+                                        </h2>
+                                        <div id="collapseChapter<%= chapterIndex %>"
+                                            class="accordion-collapse collapse <%= chapterIndex === 0 ? 'show' : '' %>"
+                                            data-bs-parent="#accordionExampleTwo">
+                                            <div class="accordion-body p-0">
+                                                <% chapter.modules.forEach(module=> { %>
+                                                    <a href="javascript:void(0)"
+                                                        class="curriculam-item flex-between gap-16 text-neutral-500 fw-medium hover-text-main-600">
+                                                        <span class="flex-align gap-12">
+                                                            <i class="text-xl d-flex ph-bold ph-video-camera"></i>
+                                                            <span class="text-line-1">
+                                                                <%= module.title %>
+                                                            </span>
+                                                        </span>
+                                                        
+                                                    </a>
+                                                    <div style="margin-left: 40px; margin-top: 20px; margin-bottom: 20px;" >
+                                                    <% module.points.map(point=> { %>
+                                                        <div class="flex-align gap-12 ml-40 my-2">
+                                                            <i class="text-xl d-flex ph-bold ph-check"></i>
+                                                            <span class="text-line-1">
+                                                                <%= point %>
+                                                            </span>
+                                                        </div>
+                                                        <% }) %>
+                                                    </div>
+                                                    <% }); %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                            </div>
+
+                        </div>
+                        <div class="border border-neutral-30 rounded-12 bg-main-25 p-32 mt-24">
+                            <h5 class="mb-0">Reviews</h5>
+                            <span class="d-block border border-neutral-30 my-32 border-dashed"></span>
+
+                            <div class="d-flex flex-sm-row flex-column gap-36">
+                                <div
+                                    class="rounded-16 px-40 py-24 flex-center flex-column flex-shrink-0 text-center bg-main-600 text-white">
+                                    <h2 class="mb-8 text-white">
+                                        <%= averageRating %>
+                                    </h2>
+                                    <div class="flex-center gap-4">
+                                        <% for(let i = 0; i < 5; i++) { %>
+                                            <span class="text-15 fw-medium text-white d-flex">
+                                                <i class="ph-fill <%= i < Math.floor(averageRating) ? 'ph-star' : (i < averageRating ? 'ph-star-half' : 'ph-star') %>"></i>
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                    <span class="mt-8 text-gray-500">
+                                        <%= course.reviews.filter(review => review.status === 'Approved').length %> Ratings
+                                    </span>
+                                </div>
+
+                                <div class="flex-grow-1">
+                                    <% 
+                                    const ratingCounts = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+                                    const approvedReviews = course.reviews.filter(review => review.status === 'Approved');
+                                    approvedReviews.forEach(review => {
+                                        ratingCounts[Math.ceil(review.rating)]++;
+                                    });
+                                    const totalApprovedReviews = approvedReviews.length;
+                                    %>
+                                    
+                                    <% [5,4,3,2,1].forEach(rating => { 
+                                        const percentage = totalApprovedReviews > 0 ? (ratingCounts[rating] / totalApprovedReviews) * 100 : 0;
+                                    %>
+                                        <div class="flex-align gap-20 mb-8">
+                                            <div class="flex-align gap-8">
+                                                <span class="text-lg fw-medium text-warning-600 d-flex">
+                                                    <i class="ph-fill ph-star"></i>
+                                                </span>
+                                                <span class="text-gray-900 flex-shrink-0"><%= rating %></span>
+                                            </div>
+                                            <div class="progress w-100 bg-white rounded-pill h-12" role="progressbar"
+                                                aria-label="Basic example" aria-valuenow="<%= percentage %>" aria-valuemin="0"
+                                                aria-valuemax="100">
+                                                <div class="progress-bar bg-main-600 rounded-pill" style="width: <%= percentage %>%"></div>
+                                            </div>
+                                            <span class="text-gray-900 flex-shrink-0"><%= Math.round(percentage) %>%</span>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                            <span class="d-block border border-neutral-30 my-32 border-dashed"></span>
+
+                            <% if(approvedReviews.length > 0) { %>
+                                <div class="accordion" id="reviewsAccordion">
+                                    <% approvedReviews.forEach((review, index) => { %>
+                                        <div class="border border-neutral-30 rounded-12 bg-white p-32 mb-3">
+                                            <div class="flex-align gap-8 mb-16">
+                                                <% for(let i = 0; i < 5; i++) { %>
+                                                    <span class="text-xl fw-medium text-warning-600 d-flex">
+                                                        <i class="ph-fill <%= i < review.rating ? 'ph-star' : 'ph-star' %>"></i>
+                                                    </span>
+                                                <% } %>
+                                            </div>
+                                            <p class="text-neutral-700"><%= review.content %></p>
+                                            <span class="d-block border border-neutral-30 my-24 border-dashed"></span>
+                                            <div class="flex-align gap-24">
+                                                <div class="">
+                                                    <h6 class="text-xl mb-8 fw-medium"><%= review.student ? review.student.name : 'Anonymous User' %></h6>
+                                                    <span class="text-neutral-700 text-sm"><%= new Date(review.createdAt).toLocaleDateString() %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            <% } else { %>
+                                <div class="text-center text-gray-500 my-4">No reviews yet</div>
+                            <% } %>
+                        </div>
+                        <div class="border border-neutral-30 rounded-12 bg-main-25 p-32 mt-24">
+                            <form action="/review/courses/<%= course.slug %>" id="commentForm" method="post">
+                                <h5 class="mb-0">Write a Review</h5>
+                                <span class="d-block border border-neutral-30 my-32 border-dashed"></span>
+                                <div class="mb-24">
+                                    <label for="name" class="text-neutral-700 text-lg fw-medium mb-12">Name </label>
+                                    <input type="text" class="common-input rounded-pill" id="name"
+                                        placeholder="Enter Name..." value="<%= user?.name %>">
+                                </div>
+                                <div class="mb-24">
+                                    <label for="email" class="text-neutral-700 text-lg fw-medium mb-12">Email </label>
+                                    <input type="email" class="common-input rounded-pill" id="email"
+                                        placeholder="Enter Email..." value="<%= user?.email %>">
+                                </div>
+                                <div class="mb-24">
+                                    <label class="text-neutral-700 text-lg fw-medium mb-12">Star Reviews </label>
+
+                                    <div id="half-star-rating">
+                                        <div class="rating-group">
+                                            <input class="rating__input rating__input--none" checked name="rating2"
+                                                id="rating2-0" value="0" type="radio">
+                                            <label aria-label="0 stars" class="rating__label"
+                                                for="rating2-0">&nbsp;</label>
+                                            <label aria-label="0.5 stars" class="rating__label rating__label--half"
+                                                for="rating2-05"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star-half"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-05" value="0.5"
+                                                type="radio">
+                                            <label aria-label="1 star" class="rating__label" for="rating2-10"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-10" value="1"
+                                                type="radio">
+                                            <label aria-label="1.5 stars" class="rating__label rating__label--half"
+                                                for="rating2-15"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star-half"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-15" value="1.5"
+                                                type="radio">
+                                            <label aria-label="2 stars" class="rating__label" for="rating2-20"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-20" value="2"
+                                                type="radio">
+                                            <label aria-label="2.5 stars" class="rating__label rating__label--half"
+                                                for="rating2-25"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star-half"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-25" value="2.5"
+                                                type="radio" checked>
+                                            <label aria-label="3 stars" class="rating__label" for="rating2-30"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-30" value="3"
+                                                type="radio">
+                                            <label aria-label="3.5 stars" class="rating__label rating__label--half"
+                                                for="rating2-35"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star-half"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-35" value="3.5"
+                                                type="radio">
+                                            <label aria-label="4 stars" class="rating__label" for="rating2-40"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-40" value="4"
+                                                type="radio">
+                                            <label aria-label="4.5 stars" class="rating__label rating__label--half"
+                                                for="rating2-45"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star-half"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-45" value="4.5"
+                                                type="radio">
+                                            <label aria-label="5 stars" class="rating__label" for="rating2-50"><i
+                                                    class="rating__icon rating__icon--star ph-fill ph-star"></i></label>
+                                            <input class="rating__input" name="rating2" id="rating2-50" value="5"
+                                                type="radio">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="mb-24">
+                                    <label for="desc" class="text-neutral-700 text-lg fw-medium mb-12">Your Question
+                                    </label>
+                                    <textarea id="desc" class="common-input rounded-24" name="desc"
+                                        placeholder="Write you question..."></textarea>
+                                </div>
+                                <div class="mb-0">
+                                    <button type="submit" class="btn btn-main rounded-pill flex-center gap-8 mt-40">
+                                        Submit Review
+                                        <i class="ph-bold ph-arrow-up-right d-flex text-lg"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="course-details__sidebar border border-neutral-30 rounded-12 bg-white p-8">
+                            <div class="border border-neutral-30 rounded-12 bg-main-25 p-24">
+                                <h5 class="text-neutral-700 text-lg mb-16">Course Information</h5>
+                                
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Price:</span>
+                                    <span class="text-neutral-700">$<%= course.price %></span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Course Category:</span>
+                                    <span class="text-neutral-700"><%= course.category %></span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Lessons:</span>
+                                    <span class="text-neutral-700"><%= course.chapters.length %></span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Language:</span>
+                                    <span class="text-neutral-700"><%= course.language %></span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Course Schedule:</span>
+                                    <span class="text-neutral-700"><%- formattedSchedule %></span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Course Level:</span>
+                                    <span class="text-neutral-700"><%= course.level %></span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Reviews:</span>
+                                    <span class="text-neutral-700"><%= averageRating %> (<%= course.reviews.length %>)</span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Duration:</span>
+                                    <span class="text-neutral-700"><%= course.duration %> Hours</span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Students:</span>
+                                    <span class="text-neutral-700"><%= course.students?.length || 0 %></span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-16">
+                                    <span class="text-neutral-700 fw-medium">Certifications:</span>
+                                    <span class="text-neutral-700">Yes</span>
+                                </div>
+
+                                <div class="course-info-item d-flex justify-content-between align-items-center mb-24">
+                                    <span class="text-neutral-700 fw-medium">Deadline:</span>
+                                    <span class="text-neutral-700"><%= course.deadline ? course.deadline.toDateString() : 'No Deadline' %></span>
+                                </div>
+
+                                <% if(user && user.coursesTaken && user.coursesTaken.some(courseTaken=> courseTaken.id === course.id)) { %>
+                                    <a href="/my-learnings/courses/<%= course.slug %>" class="btn btn-main w-100">Start Learning</a>
+                                <% } else if (course.slug === 'pmpr-exam-prep-3-month-online-course' || course.slug === 'pmp-exam-prep-extended-4-month-course') { %>
+                                    <button class="btn btn-secondary rounded-pill flex-center gap-8 w-100" disabled>Coming Soon</button>
+                                <% } else { %>
+                                    <button class="btn btn-main rounded-pill flex-center gap-8 w-100" data-bs-toggle="modal" data-bs-target="#cartModal">
+                                        Enroll Now!
+                                        <i class="ph-bold ph-arrow-up-right d-flex text-lg"></i>
+                                    </button>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="cartModalLabel">Cart</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-between items-center">
+                                <span class="fw-bold">
+                                    <%= course.title %>
+                                </span>
+                                <span class="fw-bold">$<%= course.price %></span>
+                            </div>
+                            <div class="mt-2">
+                                <span>Quantity: 1</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between items-center">
+                                <span class="fw-bold">Subtotal</span>
+                                <span class="fw-bold">$<%= course.price %></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+
+                            <a href="/enroll/<%= course.slug %>" class="btn btn-main">Proceed to Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="certificate">
+            <div class="container container--lg">
+                <div class="certificate-box px-16 bg-main-600 rounded-16">
+                    <div class="container">
+                        <div class="position-relative py-80">
+                            <div class="row align-items-center">
+                                <div class="col-xl-6">
+                                    <div class="certificate__content">
+                                        <div class="flex-align gap-8 mb-16 wow bounceInDown">
+                                            <span class="w-8 h-8 bg-white rounded-circle"></span>
+                                            <h5 class="text-white mb-0">Get Certificate</h5>
+                                        </div>
+                                        <h2 class="text-white mb-40 fw-medium wow bounceIn">Get Quality Skills
+                                            Certificate
+                                            From the PDU ™ ™</h2>
+                                        <a href="https://pdu-edu.org/contact"
+                                            class="btn btn-white rounded-pill flex-align d-inline-flex gap-8 hover-bg-main-800 wow bounceInUp">
+                                            Get Started Now
+                                            <i class="ph-bold ph-arrow-up-right d-flex text-lg"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 d-xl-block d-none">
+                                    <div class="certificate__thumb" data-aos="fade-up-left">
+                                        <img src="assets/images/thumbs/certificate-img.png" alt="" data-tilt
+                                            data-tilt-max="8" data-tilt-speed="500" data-tilt-perspective="5000"
+                                            data-tilt-full-page-listening>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('footer'); -%>
+
+            <!-- Jquery js -->
+            <script src="/assets/js/jquery-3.7.1.min.js"></script>
+            <!-- Bootstrap Bundle Js -->
+            <script src="/assets/js/boostrap.bundle.min.js"></script>
+            <!-- select2 Js -->
+            <script src="/assets/js/select2.min.js"></script>
+            <!-- Phosphor Icon Js -->
+            <script src="/assets/js/phosphor-icon.js"></script>
+            <!-- Slick js -->
+            <script src="/assets/js/slick.min.js"></script>
+            <!-- Slick js -->
+            <script src="/assets/js/counter.min.js"></script>
+            <!-- magnific popup -->
+            <script src="/assets/js/magnific-popup.min.js"></script>
+            <!-- Jquery Ui js -->
+            <script src="/assets/js/jquery-ui.js"></script>
+            <!-- plyr Js -->
+            <script src="/assets/js/plyr.js"></script>
+            <!-- vanilla Tilt -->
+            <script src="/assets/js/vanilla-tilt.min.js"></script>
+            <!-- wow -->
+            <script src="/assets/js/wow.min.js"></script>
+
+            <script src="/assets/js/aos.js"></script>
+
+            <!-- main js -->
+            <script src="/assets/js/main.js"></script>
+</body>
+
+</html>

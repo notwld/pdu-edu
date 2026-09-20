@@ -1,0 +1,18 @@
+node_modules
+frontend
+portal-pdu
+.env
+.env.*
+!.env.example
+logs
+uploads/*
+!uploads/.gitkeep
+.pnpm-store
+dist
+*.log
+pdu-edu.sql
+.git-old-broken/
+--prod
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.cursor/rules/snyk_rules.mdc

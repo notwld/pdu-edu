@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow, max-snippet:500, max-image-preview:large, max-video-preview:-1">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdu-edu.org/my-learnings">
+
+    <title>Dashboard - PDU ™</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/logo/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- select2 -->
+    <link rel="stylesheet" href="/assets/css/select2.min.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <!-- jquery-ui -->
+    <link rel="stylesheet" href="/assets/css/jquery-ui.css">
+    <!-- plyr Css -->
+    <link rel="stylesheet" href="/assets/css/plyr.css">
+    <!-- animate -->
+    <link rel="stylesheet" href="/assets/css/animate.css">
+
+    <link rel="stylesheet" href="/assets/css/aos.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+    <style>
+        #learningsTab{
+            min-height: 40vh;
+            background: #5ec5fa1a;   
+        } 
+        #learningTab{
+            border: 0;
+        }
+        #learningTab .nav-link {
+            width: 230px;
+            height: 50px;
+            background-color: #5ec5fa;
+            color: #000;
+            margin-right: 10px;
+        }
+        #leaningsTab .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #fff !important;
+            background-color: #071431 !important;
+        }
+    </style>
+    <%- include('header'); -%>
+        <% if (message) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>
+                    <%= message %>
+                </strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+
+                <section class="breadcrumb py-120 bg-main-25 position-relative z-1 overflow-hidden mb-0">
+                    <img src="assets/images/shapes/shape1.png" alt="shapes"
+                        class="shape one animation-rotation d-md-block d-none">
+                    <img src="assets/images/shapes/shape2.png" alt="shapes"
+                        class="shape two animation-scalation d-md-block d-none">
+                    <img src="assets/images/shapes/shape3.png" alt="shapes"
+                        class="shape eight animation-walking d-md-block d-none">
+                    <img src="assets/images/shapes/shape5.png" alt="shapes"
+                        class="shape six animation-walking d-md-block d-none">
+                    <img src="assets/images/shapes/shape4.png" alt="shapes" class="shape four animation-scalation">
+                    <img src="assets/images/shapes/shape4.png" alt="shapes" class="shape nine animation-scalation">
+
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="breadcrumb__wrapper">
+                                    <h1 class="breadcrumb__title display-4 fw-semibold text-center"> User Dashboard</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="course-grid-view py-120">
+                    <div class="container mt-5">
+                        <div class="mb-30">
+                            <h4>Welcome back, <span style="color: #03487c;text-transform: capitalize;"><%= user?.name %></span>!</h4>
+                            <hr>
+                        </div>
+                        <!-- Nav Tabs -->
+                        <ul class="nav nav-tabs mb-40" id="learningTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="courses-tab" data-bs-toggle="tab"
+                                    data-bs-target="#courses" type="button" role="tab" aria-controls="courses"
+                                    aria-selected="true">Courses</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="books-tab" data-bs-toggle="tab" data-bs-target="#books"
+                                    type="button" role="tab" aria-controls="books" aria-selected="false">Books</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="videos-tab" data-bs-toggle="tab" data-bs-target="#videos"
+                                    type="button" role="tab" aria-controls="videos"
+                                    aria-selected="false">Videos</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="resources-tab" data-bs-toggle="tab"
+                                    data-bs-target="#resources" type="button" role="tab" aria-controls="resources"
+                                    aria-selected="false">Resources</button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="learningsTab">
+                            <div class="tab-pane fade show active" id="courses" role="tabpanel"
+                                aria-labelledby="courses-tab">
+                                <% if (courses?.length === 0) { %>
+                                    <div class="alert alert-warning">
+                                        <strong>No courses available.</strong>
+                                    </div>
+                                   <% } else { %>
+                                <div class="row gy-4">
+                                    <% courses.forEach((course, index)=> { %>
+                                        <div class="col-12 m-0">
+                                            <div class="d-flex align-items-center bg-white p-30 shadow-sm" style="margin: 15px;">
+                                                <!-- Thumbnail -->
+                                                <div class="flex-shrink-0 me-3">
+                                                    <img src="<%= course.thumbnail %>" class="rounded-12" style="height: 50px;object-fit: contain;" alt="<%= course.title %>">
+                                                </div>
+                                                <!-- Course Info -->
+                                                <div class="flex-grow-1 mx-4">
+                                                    <h5 class="mb-1">
+                                                        <a 
+                                                            class="text-dark text-decoration-none">
+                                                            <%= course.title %>
+                                                        </a>
+                                                    </h5>
+                                                    <div class="d-flex justify-content-between">
+                                                        <!-- Duration -->
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-clock me-1"></i>
+                                                            <% const totalDuration=course?.tests?.reduce((sum, test)=> {
+                                                                return sum + (test.duration || 0);
+                                                                }, 0) || 0; %>
+                                                                Mock Test Duration: <%= totalDuration %> hours
+                                                        </small>
+                                                        <!-- Level -->
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-bar-chart me-1"></i>
+                                                            Competency Level: <%= course.level %>
+                                                        </small>
+                                                    </div>
+                                                    <% course?.tests?.forEach((test)=> { %>
+                                                    <div class="d-flex justify-content-between">
+                                                        <!-- Duration -->
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-clock me-1"></i>
+                                                            <%= test.name %> - Duration: <%= test.duration %> Hours
+                                                        </small>
+                                                        <!-- Level -->
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-bar-chart me-1"></i>
+                                                            MCQs: <%= test.MCQ?.length || 0 %>
+                                                                <!-- <a href="/test/<%= test.id %>" class="text-primary">
+                                                                    <img src="assets/images/icons/play.png">
+                                                                </a> -->
+                                                        </small>
+                                                    </div>
+                                                    <% }); %>
+                                                </div>
+                                                <div class="flex-shrink-0 me-3">
+                                                    <a href="/my-learnings/courses/<%= course?.slug %>/dashboard" class="text-primary">
+                                                        <img style="width: 40px;height: 40px;object-fit: contain;margin: 0 20px;" src="assets/images/icons/play.png">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                        <% } %>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="books" role="tabpanel" aria-labelledby="books-tab">
+                                <% if (courses?.length === 0) { %>
+                                    <div class="alert alert-warning">
+                                        <strong>No courses available.</strong>
+                                    </div>
+                                   <% } else { %>
+                                <% courses.forEach(course=> { %>
+                                    
+                                    <% if (course.books && course.books.length> 0) { %>
+                                        <!-- Check if books array exists and is not empty -->
+                                        <% course.books.forEach(book=> { %>
+                                            <% if (book && book.url) { %> <!-- Check if book and book.url exist -->
+                                                <div class="d-flex align-items-center justify-content-between gap-24 p-30" style="margin: 15px;">
+                                                    <div class="d-flex align-items-center gap-16">
+                                                        <span class="w-56 h-56 rounded-circle bg-white border border-neutral-30 d-flex justify-content-center align-items-center text-neutral-500 text-2xl">
+                                                            <i class="ph ph-file-text"></i>
+                                                        </span>
+                                                        <div>
+                                                            <h6 class="text-xl mb-8 fw-medium"><%= course.title %></h6>
+                                                            <span class="text-neutral-500 text-sm"><%= book.title %></span>
+                                                        </div>
+                                                    </div>
+                                                    <a 
+                                                        href="<%= book.url %>"
+                                                        target="_blank"
+                                                    class="w-56 h-56 rounded-circle bg-white border border-neutral-30 d-flex justify-content-center align-items-center text-neutral-500 text-2xl hover-bg-main-600 hover-border-main-600 hover-text-white">
+                                                        <i class="ph ph-eye"></i>
+                                                    </a>
+                                                </div>
+                                                <span class="d-block border border-neutral-30 my-24 border-dashed"></span>
+                                                <% } %> <!-- End of book.url check -->
+                                                    <% }); %>
+                                                        <% } else { %>
+                                                            <div class="alert alert-warning">
+                                                                <strong>No books available for this course.</strong>
+                                                            </div>
+                                                            <% } %> <!-- End of course.books check -->
+                                                                <% }); %>
+                                                                <% } %> 
+                            </div>
+
+                            <div class="tab-pane fade" id="videos" role="tabpanel" aria-labelledby="videos-tab">
+                                <% if (courses?.length === 0) { %>
+                                    <div class="alert alert-warning">
+                                        <strong>No courses available.</strong>
+                                    </div>
+                                   <% } else { %>
+                                <div class="row gy-4">
+                                    <% courses.forEach((course, index)=> { %>
+                                        <div class="col-12 m-0">
+                                            <div class="d-flex align-items-center bg-white p-30 shadow-sm" style="margin: 15px;">
+                                                <!-- Thumbnail -->
+                                                <div class="flex-shrink-0 me-3">
+                                                    <img src="<%= course.thumbnail %>" class="rounded-12" style="height: 50px;object-fit: contain;">
+                                                </div>
+                                                <!-- Course Info -->
+                                                <div class="flex-grow-1 mx-4">
+                                                    <h5 class="mb-1">
+                                                        <a 
+                                                            class="text-dark text-decoration-none">
+                                                            <%= course.title %>
+                                                        </a>
+                                                    </h5>
+                                                    <div class="d-flex justify-content-between">
+                                                        <!-- Duration -->
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-clock me-1"></i>
+                                                            Duration: <%= Math.floor(course.totalDuration / 60) %>h <%=
+                                                            course.totalDuration % 60 %>m
+                                                        </small>
+                                                        <!-- Level -->
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-bar-chart me-1"></i>
+                                                            Competency Level: <%= course.level %>
+                                                        </small>
+                                                    </div>
+                                                   
+                                                    <div class="d-flex justify-content-between">
+                                                        <!-- Duration -->
+                                                        <small class="text-muted">
+                                                            <i class="bi bi-clock me-1"></i>
+                                                            <% const totalModules=course?.chapters?.reduce((sum,
+                                                                chapter)=>
+                                                                {
+                                                                return sum + (chapter.modules?.length || 0);
+                                                                }, 0) || 0;
+                                                                %>
+                                                                Total Videos: <%= totalModules %>
+                                                        </small>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="flex-shrink-0 me-3">
+                                                    <a href="/my-learnings/courses/<%= course?.slug %>"
+
+                                                    class="text-primary">
+                                                        <img style="width: 40px;height: 40px;object-fit: contain;margin: 0 20px;" src="assets/images/icons/play.png">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                        <% } %>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="resources" role="tabpanel" aria-labelledby="resources-tab">
+                                <% if (courses?.length === 0) { %>
+                                    <div class="alert alert-warning">
+                                        <strong>No courses available.</strong>
+                                    </div>
+                                   <% } else { %>
+                                   
+                                   
+                                <% courses?.forEach(course=> { %>                                    
+                                    <% if (course.resources && course.resources.length> 0) { %> 
+                                      
+                                        <% course.resources.forEach(resource=> { %>
+                                            <% if (resource && resource.url) { %> 
+                                                <div class="d-flex align-items-center justify-content-between gap-24 p-30" style="margin: 15px;">
+                                                    <div class="d-flex align-items-center gap-16">
+                                                        <span class="w-56 h-56 rounded-circle bg-white border border-neutral-30 d-flex justify-content-center align-items-center text-neutral-500 text-2xl">
+                                                            <i class="ph ph-file-text"></i>
+                                                        </span>
+                                                        <div>
+                                                            <h6 class="text-xl mb-8 fw-medium"><%= course.title %></h6>
+                                                            <span class="text-neutral-500 text-sm"><%= resource.title %></span>
+                                                        </div>
+                                                    </div>
+                                                    <a 
+                                                        href="<%= resource.url %>"
+                                                        target="_blank"
+                                                    class="w-56 h-56 rounded-circle bg-white border border-neutral-30 d-flex justify-content-center align-items-center text-neutral-500 text-2xl hover-bg-main-600 hover-border-main-600 hover-text-white">
+                                                        <i class="ph ph-eye"></i>
+                                                    </a>
+                                                </div>
+                                                <span class="d-block border border-neutral-30 my-24 border-dashed"></span>
+                                                <% } %>
+                                                    <% }); %>
+                                                        <% } else { %>
+                                                            <div class="alert alert-warning">
+                                                                <strong>No Resources available for this course.</strong>
+                                                            </div>
+                                                            <% } %> 
+                                                                <% }); %>
+                                                                <% } %> 
+                               
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                
+                <%- include('footer'); -%>
+
+                    <!-- Jquery js -->
+                    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+                    <!-- Bootstrap Bundle Js -->
+                    <script src="/assets/js/boostrap.bundle.min.js"></script>
+                    <!-- select2 Js -->
+                    <script src="/assets/js/select2.min.js"></script>
+                    <!-- Phosphor Icon Js -->
+                    <script src="/assets/js/phosphor-icon.js"></script>
+                    <!-- Slick js -->
+                    <script src="/assets/js/slick.min.js"></script>
+                    <!-- Slick js -->
+                    <script src="/assets/js/counter.min.js"></script>
+                    <!-- magnific popup -->
+                    <script src="/assets/js/magnific-popup.min.js"></script>
+                    <!-- Jquery Ui js -->
+                    <script src="/assets/js/jquery-ui.js"></script>
+                    <!-- plyr Js -->
+                    <script src="/assets/js/plyr.js"></script>
+                    <!-- vanilla Tilt -->
+                    <script src="/assets/js/vanilla-tilt.min.js"></script>
+                    <!-- wow -->
+                    <script src="/assets/js/wow.min.js"></script>
+
+                    <script src="/assets/js/aos.js"></script>
+
+                    <!-- main js -->
+                    <script src="/assets/js/main.js"></script>
+</body>
+
+</html>

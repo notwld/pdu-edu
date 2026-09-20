@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: #0073e6;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .address {
+            text-align: center;
+            padding: 10px 20px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .content h3 {
+            margin: 10px 0;
+        }
+
+        .content span {
+            display: block;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .footer {
+            padding: 20px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="invoice" class="container">
+        <div class="header">
+            <h1>PDU</h1>
+        </div>
+        <div class="address">
+            <p>Professional Development Unit, LLC</p>
+            <p>P.O. BOX 256</p>
+            <p>10760 Enduring Freedom Drive</p>
+            <p>Fort Drum, New York 13602</p>
+        </div>
+        <div class="content">
+            <h3>{{enrollmentDate}}</h3>
+            <h3>Dear {{username}},</h3>
+            <span>
+                Here are your credentials for the course you have enrolled in:
+                <br>Email: {{email}}
+                <br>Password: {{password}}
+            </span>
+            <div class="btn-container">
+                <a href="http://backend-pdu.mize.dev/sign-in" target="_blank" class="btn" style="text-decoration: none;">Visit LMS</a>
+            </div>
+            <span>
+                Please keep this information safe and do not share it with anyone.
+            </span>
+        </div>
+        <div class="footer">
+            <span>Respectfully,</span>
+            <br>
+            <span>Your PDU Support Team</span>
+            <p>
+                If you made your purchase with a credit card, the description/payee will appear as
+                "Professional Development Unit (PDU), LLC" on your statement. Please notify the
+                person who reviews the credit card statement that "PDU, LLC" is the authorized seller
+                of this product.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

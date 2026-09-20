@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node-app
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://salad:okok@db:5432/next-prisma-starter-new
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: salad
+      POSTGRES_PASSWORD: okok
+      POSTGRES_DB: next-prisma-starter-new
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  postgres-data:
+
+networks:
+  app-network:
+    driver: bridge

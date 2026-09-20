@@ -1,0 +1,131 @@
+<%- include('preloader'); -%>
+
+    <div class="progress-wrap">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg>
+    </div>
+    <div class="mobile-menu scroll-sm d-lg-none d-block">
+        <button type="button" class="close-button"><i class="ph ph-x"></i> </button>
+        <div class="mobile-menu__inner">
+            <a href="/" class="mobile-menu__logo">
+                <img src="/assets/images/logo/logo.png" alt="Logo">
+            </a>
+            <div class="mobile-menu__menu">
+
+                <ul class="nav-menu flex-align nav-menu--mobile">
+                    <li class="nav-menu__item activePage">
+                        <a href="/" class="nav-menu__link">Home</a>
+                    </li>
+                    <li class="nav-menu__item">
+                        <a href="/about" class="nav-menu__link">About Us</a>
+                    </li>
+                    <li class="nav-menu__item">
+                        <a href="/courses" class="nav-menu__link">Courses</a>
+                    </li>
+                    
+                    <li class="nav-menu__item">
+                        <a href="/articles" class="nav-menu__link">Articles</a>
+                    </li>
+                    <li class="nav-menu__item">
+                        <a href="/faqs" class="nav-menu__link">FAQs</a>
+                    </li>
+                    <li class="nav-menu__item">
+                        <a href="/contact" class="nav-menu__link">Contact</a>
+                    </li>
+                    <% if (user) { %>
+
+                        <li class="nav-menu__item">
+                            <a href="/forums" class="nav-menu__link">Forums</a>
+                        </li>
+                        <% } %>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    <header class="header">
+        <div class="container container--xl">
+            <nav class="header-inner flex-between gap-8">
+
+                <div class="header-content-wrapper flex-align flex-grow-1">
+                    <div class="logo" style="">
+                        <a href="/" class="link" style="text-decoration: none;">
+                            <img src="/assets/images/logo/logo.png" alt="Logo">
+                            <span style="color:black;margin-top: 23px;">
+                                Professional Development Unit
+                            </span>
+                        </a>
+                    </div>
+                    <div class="header-menu d-lg-block d-none">
+
+                        <ul class="nav-menu flex-align ">
+                            <li class="nav-menu__item activePage">
+                                <a href="/" class="nav-menu__link">Home</a>
+                            </li>
+                            <li class="nav-menu__item">
+                                <a href="/about" class="nav-menu__link">About Us</a>
+                            </li>
+                            <li class="nav-menu__item">
+                                <a href="/courses" class="nav-menu__link">Courses</a>
+                            </li>
+                            <% if (user) { %>
+                            <li class="nav-menu__item">
+                                <a href="/forums" class="nav-menu__link">Forums</a>
+                            </li>
+                            <% } %>
+                            <li class="nav-menu__item">
+                                <a href="/articles" class="nav-menu__link">Articles</a>
+                            </li>
+                            <li class="nav-menu__item">
+                                <a href="/faqs" class="nav-menu__link">FAQs</a>
+                            </li>
+                            <li class="nav-menu__item">
+                                <a href="/contact" class="nav-menu__link">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="header-right flex-align">
+                    <% if (user) { %>
+
+                        <div
+                            style="display: flex; align-items: flex-start;justify-items: center; flex-direction: column;">
+                            <div style="display: flex; align-items: center;justify-items: center; gap: 8px;">
+                                <div
+                                    class="info-action w-52 h-52 bg-main-25 hover-bg-main-600 border border-neutral-30 rounded-circle flex-center text-2xl text-neutral-500 hover-text-white hover-border-main-600">
+
+                                    <i class="ph ph-user-circle"></i>
+                                </div>
+                                <div>
+                                    <p>Welcome, <%= user.name %>!</p>
+                                    <a href="/my-learnings" style="font-size: small;">
+                                        My Learnings
+                                    </a>
+                                    <span style="font-size: small;">|</span>
+                                    <a href="/logout" style="font-size: small;">Logout</a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <% } else { %>
+                            <a href="/sign-in"
+                                class="info-action w-52 h-52 bg-main-25 hover-bg-main-600 border border-neutral-30 rounded-circle flex-center text-2xl text-neutral-500 hover-text-white hover-border-main-600">
+                                <i class="ph ph-user-circle"></i>
+                            </a>
+                            <% } %>
+                            <span 
+                            onclick="changeLanguageModal()"
+                           class="text-neutral-200 cursor-pointer my-10" style="cursor: pointer;">Change Language</span>
+                            
+                            </form>
+                                <button type="button" class="toggle-mobileMenu d-lg-none text-neutral-200 flex-center">
+                                    <i class="ph ph-list"></i>
+                                </button>
+                </div>
+            </nav>
+        </div>
+    </header>

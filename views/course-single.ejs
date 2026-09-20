@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow, max-snippet:500, max-image-preview:large, max-video-preview:-1">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdu-edu.org/courses">
+
+    <title>Dashboard - PDU ™</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/logo/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- select2 -->
+    <link rel="stylesheet" href="/assets/css/select2.min.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <!-- jquery-ui -->
+    <link rel="stylesheet" href="/assets/css/jquery-ui.css">
+    <!-- plyr Css -->
+    <link rel="stylesheet" href="/assets/css/plyr.css">
+    <!-- animate -->
+    <link rel="stylesheet" href="/assets/css/animate.css">
+
+    <link rel="stylesheet" href="/assets/css/aos.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+    <style>
+        #v-pills-tab a {
+            border: 2px solid #000;
+            background: #fff;
+            margin-bottom: 7px;
+            border-radius: 0;
+            font-size: 20px;
+            color: #000;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+        }
+        #v-pills-tab .active{
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        .coursebox{
+            min-height: 70vh;
+            margin: 60px 0;
+            box-shadow: var(--bs-box-shadow-sm) !important;
+            background: #fff;
+            border-radius: 7px;
+        }
+        #v-pills-tab a i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        /* p{
+            margin-bottom: 16px;
+        } */
+         .tab-content{
+            width: 85%;
+         }
+        /* Forum styles */
+        .forum-actions {
+            display: flex !important;
+            gap: 0.5rem;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        .forum-actions button {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .list-group-item {
+            position: relative;
+            padding: 1rem;
+        }
+        .list-group-item .btn {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 0.25rem;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        .list-group-item .btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(90%);
+        }
+        .list-group-item .btn-primary {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+        .list-group-item .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        /* Reply form styles */
+        #replyForm-${comment.id} {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.25rem;
+        }
+        #replyForm-${comment.id}.show {
+            display: block !important;
+        }
+        /* Comment form styles */
+        #commentFormContainer {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.25rem;
+        }
+        #commentForm textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        /* Forum status badges */
+        .forum-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .forum-status-badge.active {
+            background-color: #198754;
+            color: #fff;
+        }
+        .forum-status-badge.inactive {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .forum-status-badge.expired {
+            background-color: #ffc107;
+            color: #000;
+        }
+        /* Button styles */
+        .btn {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 0.25rem;
+            transition: all 0.2s ease;
+            border: none;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(90%);
+        }
+
+        /* Primary button */
+        .btn-primary {
+            background-color: #0d6efd !important;
+            color: #fff !important;
+        }
+
+        /* Danger button */
+        .btn-danger {
+            background-color: #dc3545 !important;
+            color: #fff !important;
+        }
+
+        /* Secondary button */
+        .btn-secondary {
+            background-color: #6c757d !important;
+            color: #fff !important;
+        }
+
+        /* Light button */
+        .btn-light {
+            background-color: #f8f9fa !important;
+            color: #212529 !important;
+            border: 1px solid #dee2e6 !important;
+        }
+
+        /* Outline buttons */
+        .btn-outline-primary {
+            background-color: #0d6efd !important;
+            color: #fff !important;
+            border: none !important;
+        }
+
+        .btn-outline-danger {
+            background-color: #dc3545 !important;
+            color: #fff !important;
+            border: none !important;
+        }
+
+        .btn-outline-secondary {
+            background-color: #6c757d !important;
+            color: #fff !important;
+            border: none !important;
+        }
+
+        /* Modal styles */
+        .modal-content {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            background-color: #fff;
+            border-bottom: 1px solid #dee2e6;
+            padding: 1rem;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            background-color: #fff;
+            border-top: 1px solid #dee2e6;
+            padding: 1rem;
+        }
+
+        /* Dropdown styles */
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-item.text-danger {
+            color: #dc3545 !important;
+        }
+
+        .dropdown-item.text-danger:hover {
+            background-color: #dc3545;
+            color: #fff !important;
+        }
+
+        /* Forum action buttons */
+        .forum-actions {
+            display: flex !important;
+            gap: 0.5rem;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .forum-actions button {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        /* Form control styles */
+        .form-control {
+            border: 1px solid #dee2e6;
+            padding: 0.5rem 0.75rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+
+        /* Badge styles */
+        .badge {
+            padding: 0.35em 0.65em;
+            font-weight: 500;
+        }
+
+        .badge.bg-success {
+            background-color: #198754 !important;
+        }
+
+        .badge.bg-danger {
+            background-color: #dc3545 !important;
+        }
+
+        .badge.bg-warning {
+            background-color: #ffc107 !important;
+            color: #000 !important;
+        }
+
+        .badge.bg-info {
+            background-color: #0dcaf0 !important;
+            color: #fff !important;
+        }
+
+        .badge.bg-light {
+            background-color: #f8f9fa !important;
+            color: #212529 !important;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+    <%- include('header'); -%>
+        <% if (message) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>
+                    <%= message %>
+                </strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+
+            <section class="breadcrumb py-120 bg-main-25 position-relative z-1 overflow-hidden mb-0">
+                <img src="/assets/images/shapes/shape1.png" alt=""
+                    class="shape one animation-rotation d-md-block d-none">
+                <img src="/assets/images/shapes/shape2.png" alt=""
+                    class="shape two animation-scalation d-md-block d-none">
+                <img src="/assets/images/shapes/shape3.png" alt=""
+                    class="shape eight animation-walking d-md-block d-none">
+                <img src="/assets/images/shapes/shape5.png" alt=""
+                    class="shape six animation-walking d-md-block d-none">
+                <img src="/assets/images/shapes/shape4.png" alt="" class="shape four animation-scalation">
+                <img src="/assets/images/shapes/shape4.png" alt="" class="shape nine animation-scalation">
+
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="breadcrumb__wrapper">
+                                <h1 class="breadcrumb__title display-4 fw-semibold text-center">
+                                    <%= course?.title %>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+                <div class="container-fluid mt-4">
+                    <div class="coursebox">
+                        <div class="row">
+                        <!-- Vertical Tabs -->
+                        <div class="col-md-3">
+                            <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="v-pills-course-tab" data-bs-toggle="pill" href="#v-pills-course" role="tab" aria-controls="v-pills-course" aria-selected="true">
+                                <i class="ph ph-file-text"></i> Course Status
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="v-pills-about-tab" data-bs-toggle="pill" href="#v-pills-about" role="tab" aria-controls="v-pills-about" aria-selected="false">
+                                <i class="ph ph-info"></i> About
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="v-pills-videos-tab" data-bs-toggle="pill" href="#v-pills-videos" role="tab" aria-controls="v-pills-videos" aria-selected="false">
+                                <i class="ph ph-video-camera"></i> Videos
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="v-pills-test-tab" data-bs-toggle="pill" href="#v-pills-test" role="tab" aria-controls="v-pills-test" aria-selected="false">
+                                <i class="ph ph-pencil-simple"></i> Test
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="v-pills-forum-tab" data-bs-toggle="pill" href="#v-pills-forum" role="tab" aria-controls="v-pills-forum" aria-selected="false">
+                                <i class="ph ph-chats"></i> Forum
+                                </a>
+                            </li>
+                            </ul>
+                        </div>
+                    
+                        <!-- Tab Content -->
+                        <div class="col-md-9">
+                            <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-course" role="tabpanel" aria-labelledby="v-pills-course-tab">
+                                <h3>Course Status</h3>
+                                <p>Track your lecture progress and complete the course to earn a certificate.</p>
+                                <div class="progress w-100 mb-20 mt-10">
+                                    <div class="progress-bar progress-bar-striped" id="progressBar" role="progressbar"
+                                        style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        0%
+                                    </div>
+                                </div>
+                                
+                                
+                                <h3>
+                                    Your Test Attempts
+                                </h3>
+                                <div class="card shadow-sm mb-4 mt-10">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0">Test Progress Overview</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div>
+                                                <h6>Certificate Eligibility Status</h6>
+                                                <span class="badge <%= isEligible ? 'bg-success' : 'bg-warning' %> fs-6">
+                                                    <%= isEligible ? 'Eligible - All Tests Passed' : 'Not Eligible - Some Tests Pending' %>
+                                                </span>
+                                            </div>
+                                            <div class="text-end">
+                                                <h6>Tests Progress</h6>
+                                                <span class="badge bg-info fs-6">
+                                                    <%= attemptStats?.passedTests %>/<%= attemptStats?.totalTests %> Tests Passed
+                                                </span>
+                                                <% if (isEligible) { %>
+                                                    <a href="/course/request-certificate/<%= user.id %>/<%= course.id %>" id="certificateButton"
+                                                        class="btn btn-primary my-10 px-10 py-10" >Request Certificate
+                                                    </a>
+                                                    <% } %>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <% if (attempts?.length === 0) { %>
+                                    <p class="text-muted text-left">You haven't attempted any tests yet.</p>
+                                <% } else { %>
+                                    <% attempts?.forEach((attempt) => { %>
+                                        <div class="card shadow-sm mb-4">
+                                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <h5 class="mb-0"><%= attempt?.Test?.name %></h5>
+                                                    <small class="text-muted">
+                                                        <i class="bi bi-calendar me-1"></i>
+                                                        <%= new Date(attempt?.createdAt).toLocaleDateString() %>
+                                                    </small>
+                                                </div>
+                                                <div class="text-end">
+                                                    <h6 class="mb-0">Overall Score</h6>
+                                                    <span class="badge <%= attempt.isPassed ? 'bg-success' : 'bg-danger' %> fs-6">
+                                                        <%= attempt?.correct %>/<%= attempt?.total %>
+                                                        (<%= ((attempt?.correct/attempt?.total) * 100)?.toFixed(1) %>%)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="card-body">
+                                                <div class="accordion" id="attempt<%= attempt.id %>">
+                                                    <% attempt?.categories?.forEach((exam, examIndex) => { %>
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header">
+                                                                <button class="accordion-button <%= examIndex === 0 ? '' : 'collapsed' %>" 
+                                                                        type="button" 
+                                                                        data-bs-toggle="collapse" 
+                                                                        data-bs-target="#exam<%= attempt.id %>_<%= examIndex %>">
+                                                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                                                        <span><%= exam.name %></span>
+                                                                        <span class="badge <%= exam.score >= 75 ? 'bg-success' : 'bg-danger' %> ms-2">
+                                                                            <%= exam.score.toFixed(1) %>%
+                                                                        </span>
+                                                                    </div>
+                                                                </button>
+                                                            </h2>
+                                                            
+                                                            <div id="exam<%= attempt.id %>_<%= examIndex %>" 
+                                                                 class="accordion-collapse collapse <%= examIndex === 0 ? 'show' : '' %>"
+                                                                 data-bs-parent="#attempt<%= attempt.id %>">
+                                                                <div class="accordion-body">
+                                                                    <div class="list-group">
+                                                                        <% exam?.subCategories?.forEach((domain) => { %>
+                                                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                                <span><%= domain.name %></span>
+                                                                                <div>
+                                                                                    <div class="progress" style="width: 200px; height: 20px;">
+                                                                                        <div class="progress-bar <%= domain.score >= 75 ? 'bg-success' : 'bg-danger' %>"
+                                                                                             role="progressbar"
+                                                                                             style="width: <%= domain.score %>%"
+                                                                                             aria-valuenow="<%= domain.score %>"
+                                                                                             aria-valuemin="0"
+                                                                                             aria-valuemax="100">
+                                                                                            <%= domain.score.toFixed(1) %>%
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        <% }) %>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <% }) %>
+                                                </div>
+                                            </div>
+                                    
+                                            <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">
+                                                    <i class="bi bi-check-circle-fill me-1"></i>
+                                                    Status: <span class="<%= attempt.isPassed ? 'text-success' : 'text-danger' %>">
+                                                        <%= attempt.isPassed ? 'Passed' : 'Failed' %>
+                                                    </span>
+                                                </small>
+                                                <button class="btn btn-sm btn-outline-primary" 
+                                                        onclick="window.location.href='/attempts/<%= attempt.id %>'">
+                                                    View Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                <% } %>
+
+                                        
+                                   
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-test" role="tabpanel" aria-labelledby="v-pills-test-tab">
+                                <h3>Test</h3>
+                                <p>Take quizzes and practice tests to evaluate your knowledge.</p>
+                                <div class="mt-10">
+                                    <% if (course?.tests?.length === 0) { %>
+                                        <p class="text-muted
+                                        text-left">No tests available for this course.</p>
+                                        <% } %>
+                                    <% course?.tests?.forEach((test)=> { %>
+                                        <div class="card p-3 mt-4">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                              <!-- Test Info -->
+                                              <div class="d-flex flex-column">
+                                                <div class="text-muted mb-1">
+                                                  <i class="bi bi-clock-fill me-2"></i>
+                                                  <span class="fw-medium"><%= test.name %></span>
+                                                  <span class="ms-2">Duration: <%= test.duration %> Hours</span>
+                                                </div>
+                                                <div class="text-muted">
+                                                  <i class="bi bi-bar-chart-fill me-2"></i>
+                                                  <span>MCQs: <%= test.MCQ?.length || 0 %></span>
+                                                </div>
+                                              </div>
+                                          
+                                              <!-- Play Button -->
+                                              <div class="flex-shrink-0">
+                                                <a href="/test/<%= test.id %>" class="btn btn-light rounded-circle p-2" 
+                                                   data-bs-toggle="tooltip" title="Start Test">
+                                                  <img src="/assets/images/icons/play.png" 
+                                                       class="img-fluid" 
+                                                       style="width: 32px; height: 32px; object-fit: contain;"
+                                                       alt="Play button">
+                                                </a>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        <% }); %>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-about" role="tabpanel" aria-labelledby="v-pills-about-tab">
+                                <h3>About</h3>
+                                <p>Learn more about the course and the instructors.</p>
+                                <div class="mt-10">
+                                    <h4>Course Description</h4>
+                                    <p>
+                                        <%= course?.description %>
+                                    </p>
+                                    <h4>Instructors</h4>
+                                    <ul>
+                                        <% course?.instructors?.forEach((instructor)=> { %>
+                                            <li>
+                                                <strong>
+                                                    <%= instructor.name %>
+                                                </strong>
+                                                <p>
+                                                    <%= instructor.email %>
+                                                </p>
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-videos" role="tabpanel" aria-labelledby="v-pills-videos-tab">
+                                <h3>Videos</h3>
+                                <p>Access video lectures and tutorials for the course.</p>
+                                <div class="accordion common-accordion style-three mt-10" id="accordionExampleTwo">
+                                    <% if (course.chapters && course.chapters.length> 0) { %>
+                                        <% course.chapters.forEach((chapter, chapterIndex)=> { %>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header bg-main-25">
+                                                    <button class="accordion-button bg-main-25" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse<%= chapterIndex %>" aria-expanded="true"
+                                                        aria-controls="collapse<%= chapterIndex %>">
+                                                        <%= chapter.title %>
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse<%= chapterIndex %>" class="accordion-collapse collapse show"
+                                                    data-bs-parent="#accordionExampleTwo">
+                                                    <div class="accordion-body p-0 bg-main-25">
+                                                        <% chapter.modules.forEach((module, moduleIndex)=> { %>
+                                                            <div class="curriculam-item"
+                                                                data-chapter-index="<%= chapterIndex %>"
+                                                                data-module-index="<%= moduleIndex %>">
+                                                                <div class="flex-between gap-8 mt-10">
+                                                                    <a href="/my-learnings/courses/<%= course.slug %>"
+                                                                        class="text-neutral-500 fw-medium hover-text-main-600 d-block cursor-pointer">
+                                                                        <span class="flex-align gap-12">
+                                                                            <i
+                                                                                class="text-xl d-flex ph-bold ph-video-camera"></i>
+                                                                            <span class="text-line-1">
+                                                                                <%= module.title %>
+                                                                            </span>
+                                                                        </span>
+                                                                    </a>
+                                                                    <span class="flex-align gap-12 flex-shrink-0">Duration:
+                                                                        <%= module?.duration?.toFixed(2) %> mins</span>
+                                                                </div>
+                                                            </div>
+                                                            <% }) %>
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                                <% } else { %>
+                                                    <p>No chapters available.</p>
+                                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-forum" role="tabpanel" aria-labelledby="v-pills-forum-tab">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div>
+                                        <h3 class="mb-1">PMP Exam Q&As</h3>
+                                        <div class="d-flex align-items-center gap-4 text-muted">
+                                            <span class="d-flex align-items-center gap-1">
+                                                <i class="ph ph-chats-circle"></i>
+                                                <span id="totalTopics">0</span> Topics
+                                            </span>
+                                            <span class="d-flex align-items-center gap-1">
+                                                <i class="ph ph-chat-circle-text"></i>
+                                                <span id="totalReplies">0</span> Replies
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-lg d-flex align-items-center gap-2" onclick="createNewTopic()">
+                                        <i class="ph ph-plus-circle"></i> Submit a Question
+                                    </button>
+                                </div>
+
+                                <!-- Forum List -->
+                                <div id="forumList" class="mt-4">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body p-0">
+                                            <div class="list-group list-group-flush" id="forumTopicsList">
+                                                <!-- Forum topics will be loaded here -->
+                                                <div class="text-center py-5">
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Forum Detail View (hidden by default) -->
+                                <div id="forumDetail" class="mt-4" style="display: none;">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-header bg-white border-bottom py-3">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <button class="btn btn-link text-decoration-none p-0 mb-2" onclick="backToForumList()">
+                                                        <i class="ph ph-arrow-left"></i> Back to Topics
+                                                    </button>
+                                                    <h4 class="mb-1" id="forumTitle">Topic Title</h4>
+                                                    <div class="d-flex align-items-center gap-3 text-muted">
+                                                        <small class="d-flex align-items-center gap-1">
+                                                            <i class="ph ph-user-circle"></i>
+                                                            <span id="forumAuthor">Author Name</span>
+                                                            <span id="forumCohort" class="badge bg-light text-dark ms-2"></span>
+                                                        </small>
+                                                        <small class="d-flex align-items-center gap-1">
+                                                            <i class="ph ph-clock"></i>
+                                                            <span id="forumDate">Date</span>
+                                                        </small>
+                                                        <small class="d-flex align-items-center gap-1">
+                                                            <i class="ph ph-eye"></i>
+                                                            <span id="forumViews">0</span> views
+                                                        </small>
+                                                        <small class="d-flex align-items-center gap-1" id="lastActivityContainer" style="display: none;">
+                                                            <i class="ph ph-clock-clockwise"></i>
+                                                            Last activity: <span id="lastActivityTime"></span>
+                                                            by <span id="lastActivityUser"></span>
+                                                            <span id="lastActivityCohort" class="badge bg-light text-dark ms-2"></span>
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <div id="forumStatus"></div>
+                                                    <div id="forumActions" style="display: none;">
+                                                        <% if (user?.role?.name === 'admin') { %>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                                    <i class="ph ph-gear"></i> Admin Actions
+                                                                </button>
+                                                                <ul class="dropdown-menu">
+                                                                    <li>
+                                                                        <button class="dropdown-item" onclick="editSubmissionDate()">
+                                                                            <i class="ph ph-calendar"></i> Edit Submission Date
+                                                                        </button>
+                                                                    </li>
+                                                                    <li>
+                                                                        <button class="dropdown-item text-danger" onclick="deleteForum(currentForumId)">
+                                                                            <i class="ph ph-trash"></i> Delete Forum
+                                                                        </button>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        <% } else { %>
+                                                        <button class="btn btn-danger btn-sm d-flex align-items-center gap-2" onclick="deleteForum(currentForumId)">
+                                                            <i class="ph ph-trash"></i> Delete Forum
+                                                        </button>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-4">
+                                                <p class="mb-0" id="forumDescription">Topic description will appear here.</p>
+                                            </div>
+
+                                            <hr class="my-4">
+
+                                            <!-- Comments Section -->
+                                            <div class="d-flex align-items-center gap-2 mb-4">
+                                                <i class="ph ph-chat-circle-text"></i>
+                                                <h5 class="mb-0">Comments</h5>
+                                            </div>
+                                            <div id="commentsList" class="space-y-4">
+                                                <!-- Comments will be loaded here -->
+                                            </div>
+
+                                            <!-- Add Comment Form -->
+                                            <div id="commentFormContainer" class="mt-4">
+                                                <form id="commentForm" class="bg-light p-4 rounded">
+                                                    <div class="form-group">
+                                                        <label for="commentContent" class="form-label">Add a Comment</label>
+                                                        <textarea class="form-control" id="commentContent" rows="3" required 
+                                                                placeholder="Share your thoughts..."></textarea>
+                                                    </div>
+                                                    <div class="d-flex justify-content-end mt-3">
+                                                        <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
+                                                            <i class="ph ph-paper-plane-right"></i> Post Comment
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- New Topic Modal -->
+                                <div class="modal fade" id="newTopicModal" tabindex="-1" aria-labelledby="newTopicModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content border-0 shadow">
+                                            <div class="modal-header border-bottom py-3">
+                                                <h5 class="modal-title d-flex align-items-center gap-2" id="newTopicModalLabel">
+                                                    <i class="ph ph-plus-circle"></i> Submit a Question
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body py-4">
+                                                <form id="newTopicForm">
+                                                    <div class="mb-3">
+                                                        <label for="topicTitle" class="form-label">Question Title</label>
+                                                        <input type="text" class="form-control" id="topicTitle" required 
+                                                               placeholder="Enter your question...">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="topicDescription" class="form-label">Question Details</label>
+                                                        <textarea class="form-control" id="topicDescription" rows="4" required 
+                                                                  placeholder="Provide more details about your question..."></textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Expiration Settings</label>
+                                                        <div class="btn-group w-100 mb-2" role="group">
+                                                            <input type="radio" class="btn-check" name="expirationType" id="noExpire" value="none" checked>
+                                                            <label class="btn btn-primary" for="noExpire">No Expiry</label>
+                                                            
+                                                            <input type="radio" class="btn-check" name="expirationType" id="presetExpire" value="preset">
+                                                            <label class="btn btn-primary" for="presetExpire">Preset Duration</label>
+                                                            
+                                                            <input type="radio" class="btn-check" name="expirationType" id="customExpire" value="custom">
+                                                            <label class="btn btn-primary" for="customExpire">Custom Date</label>
+                                                        </div>
+
+                                                        <!-- Preset duration options -->
+                                                        <div id="presetDurationOptions" class="btn-group w-100 mb-2" style="display: none;">
+                                                            <input type="radio" class="btn-check" name="autoExpire" id="expire24h" value="24">
+                                                            <label class="btn btn-secondary" for="expire24h">24 Hours</label>
+                                                            
+                                                            <input type="radio" class="btn-check" name="autoExpire" id="expire48h" value="48">
+                                                            <label class="btn btn-secondary" for="expire48h">48 Hours</label>
+                                                            
+                                                            <input type="radio" class="btn-check" name="autoExpire" id="expire72h" value="72">
+                                                            <label class="btn btn-secondary" for="expire72h">72 Hours</label>
+                                                        </div>
+
+                                                        <!-- Custom date input -->
+                                                        <div id="customDateInput" class="mb-2" style="display: none;">
+                                                            <input type="datetime-local" class="form-control" id="customExpiryDate" 
+                                                                   min="<?= new Date().toISOString().slice(0, 16) ?>">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer border-top py-3">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="button" class="btn btn-primary d-flex align-items-center gap-2" onclick="submitNewTopic()">
+                                                    <i class="ph ph-paper-plane-right"></i> Submit Question
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <%- include('footer'); -%>
+
+                    <script type="text/javascript">
+                        const userId = <%= user?.id %>;
+                        const courseId = <%= course?.id %>;
+                          async function updateProgress() {
+                    try {
+                        const response = await fetch(`/course/progress/${userId}/${courseId}`);
+                        if (!response.ok) throw new Error("Failed to fetch progress");
+
+                        const { progress } = await response.json();
+                        const progressValue = Math.max(0, Math.min(100, progress)); // Ensure progress stays between 0-100
+
+                        // Update the progress bar width and text
+                        if (progressBar) {
+                            progressBar.style.width = `${progressValue}%`;
+                            progressBar.setAttribute("aria-valuenow", progressValue);
+                            progressBar.textContent = `${progressValue}%`;
+                        }
+
+                        
+                    } catch (error) {
+                        console.error("Error fetching progress:", error);
+                    }
+                }
+                document.addEventListener("DOMContentLoaded", updateProgress);
+
+
+                    </script>
+                    
+                    <!-- Forum Scripts -->
+                    <script>
+                    // Forum functionality
+                        let currentForumId = null;
+                    let currentUser = null;
+
+                    // Fetch user data on page load
+                    fetch('/api/user/me')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.user) {
+                                currentUser = data.user;
+                                // Enable forum creation if user is logged in
+                                const createForumBtn = document.getElementById('createForumBtn');
+                                if (createForumBtn) {
+                                    createForumBtn.disabled = false;
+                                }
+                            }
+                        })
+                        .catch(error => console.error('Error fetching user:', error));
+
+                    // Load forums for the course
+                    function loadForums() {
+                        const courseId = '<%= course.id %>';
+                        console.log('Loading forums for course:', courseId);
+                        console.log('API endpoint:', `/api/course/${courseId}/forums`);
+                        
+                        // Show loading state
+                        const forumTopicsList = document.getElementById('forumTopicsList');
+                        if (forumTopicsList) {
+                            forumTopicsList.innerHTML = `
+                                <div class="text-center py-5">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        
+                        fetch(`/api/course/${courseId}/forums`)
+                            .then(async response => {
+                                console.log('Forum list response status:', response.status);
+                                console.log('Forum list response headers:', Object.fromEntries(response.headers.entries()));
+                                if (!response.ok) {
+                                    const text = await response.text();
+                                    throw new Error(text || 'Failed to load forums');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log('Forum list data received:', data);
+                                const forumTopicsList = document.getElementById('forumTopicsList');
+                                if (!forumTopicsList) {
+                                    console.error('Forum topics list container not found');
+                                    return;
+                                }
+                                
+                                if (!data.forums || data.forums.length === 0) {
+                                    forumTopicsList.innerHTML = `
+                                        <div class="text-center py-5">
+                                            <p class="text-muted mb-0">No forums available yet.</p>
+                                        </div>
+                                    `;
+                                    return;
+                                }
+                                
+                                // Update forum count
+                                const totalTopics = document.getElementById('totalTopics');
+                                if (totalTopics) {
+                                    totalTopics.textContent = data.forums.length;
+                                }
+                                
+                                // Calculate total replies
+                                const totalReplies = data.forums.reduce((sum, forum) => sum + (forum._count?.comments || 0), 0);
+                                const totalRepliesElement = document.getElementById('totalReplies');
+                                if (totalRepliesElement) {
+                                    totalRepliesElement.textContent = totalReplies;
+                                }
+                                
+                                // Render forum list
+                                forumTopicsList.innerHTML = data.forums.map(forum => {
+                                    // Safely get creator name
+                                    const creatorName = forum.createdBy?.name || 'Unknown User';
+                                    const creatorCohort = forum.createdBy?.cohort;
+                                    const lastActivityUserName = forum.lastActivityUser?.name;
+                                    const commentCount = forum._count?.comments || 0;
+                                    const viewCount = forum.viewCount || 0;
+                                    const isExpired = forum.expiresAt && new Date(forum.expiresAt) < new Date();
+                                    
+                                    return `
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h5 class="mb-1">${forum.title || 'Untitled Forum'}</h5>
+                                                <p class="mb-1 text-muted">${forum.description || 'No description provided'}</p>
+                                                <div class="d-flex align-items-center gap-3 text-muted small">
+                                                    <span class="d-flex align-items-center gap-1">
+                                                        <i class="ph ph-user-circle"></i>
+                                                        ${creatorName}
+                                                        ${creatorCohort ? `<span class="badge bg-light text-dark ms-1">${creatorCohort}</span>` : ''}
+                                                    </span>
+                                                    <span class="d-flex align-items-center gap-1">
+                                                        <i class="ph ph-clock"></i>
+                                                        ${new Date(forum.createdAt).toLocaleString()}
+                                                    </span>
+                                                    <span class="d-flex align-items-center gap-1">
+                                                        <i class="ph ph-eye"></i>
+                                                        ${viewCount} views
+                                                    </span>
+                                                    <span class="d-flex align-items-center gap-1">
+                                                        <i class="ph ph-chat-circle-text"></i>
+                                                        ${commentCount} comments
+                                                    </span>
+                                                    ${!forum.isActive ? `
+                                                        <span class="forum-status-badge inactive">Inactive</span>
+                                                    ` : isExpired ? `
+                                                        <span class="forum-status-badge expired">Expired</span>
+                                                    ` : ''}
+                                                </div>
+                                            </div>
+                                            <div class="forum-actions">
+                                                <button onclick="viewForum(${forum.id})" class="btn btn-primary btn-sm">
+                                                    <i class="ph ph-eye"></i> View Discussion
+                                                </button>
+                                                ${data.user && (data.user.role?.permissions?.some(p => p.name === 'Manage Forums') || forum.createdById === data.user.id) ? `
+                                                    <button onclick="deleteForum('${forum.id}')" class="btn btn-danger btn-sm">
+                                                        <i class="ph ph-trash"></i> Delete
+                                                    </button>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                        ${forum.lastActivityAt ? `
+                                            <div class="mt-2 text-muted small">
+                                                <i class="ph ph-clock-clockwise"></i>
+                                                Last activity: ${new Date(forum.lastActivityAt).toLocaleString()}
+                                                ${lastActivityUserName ? `by ${lastActivityUserName}` : ''}
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                    `;
+                                }).join('');
+                            })
+                            .catch(error => {
+                                console.error('Error loading forums:', error);
+                                console.error('Error details:', {
+                                    message: error.message,
+                                    stack: error.stack,
+                                    courseId: courseId
+                                });
+                                const forumTopicsList = document.getElementById('forumTopicsList');
+                                if (forumTopicsList) {
+                                    forumTopicsList.innerHTML = `
+                                        <div class="text-center py-5">
+                                            <p class="text-danger mb-0">Error loading forums. Please try again.</p>
+                                        </div>
+                                    `;
+                                }
+                            });
+                    }
+                    
+                    // View forum details
+                    function viewForum(forumId) {
+                        console.log('Viewing forum:', forumId);
+                        console.log('API endpoint:', `/api/forum/${forumId}/details`);
+                        
+                        currentForumId = forumId;
+                        fetch(`/api/forum/${forumId}/details`)
+                            .then(async response => {
+                                console.log('Forum details response status:', response.status);
+                                console.log('Forum details response headers:', Object.fromEntries(response.headers.entries()));
+                                if (!response.ok) {
+                                    const text = await response.text();
+                                    throw new Error(text || 'Failed to load forum details');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log('Forum details data received:', data);
+                                const forumModal = document.getElementById('forumModal');
+                                const forumContent = document.getElementById('forumContent');
+                                if (!forumModal || !forumContent) return;
+
+                                forumContent.innerHTML = `
+                                    <div class="mb-6">
+                                        <h2 class="text-2xl font-bold text-gray-800 mb-2">${data.forum.title}</h2>
+                                        <p class="text-gray-600 mb-4">${data.forum.description}</p>
+                                        <div class="text-sm text-gray-500">
+                                            <span>Created by ${data.forum.createdBy.name}</span>
+                                            ${data.forum.createdBy.cohort ? `<span class="ml-2">(${data.forum.createdBy.cohort})</span>` : ''}
+                                            <span class="ml-2">• ${new Date(data.forum.createdAt).toLocaleString()}</span>
+                                        </div>
+                                                        </div>
+                                    <div class="space-y-6">
+                                        ${data.forum.comments.map(comment => `
+                                            <div class="comment bg-gray-50 rounded-lg p-4">
+                                                <div class="flex justify-between items-start mb-2">
+                                                    <div class="text-sm text-gray-500">
+                                                        <span class="font-semibold">${comment.user.name}</span>
+                                                        ${comment.user.cohort ? `<span class="ml-2">(${comment.user.cohort})</span>` : ''}
+                                                        <span class="ml-2">• ${new Date(comment.createdAt).toLocaleString()}</span>
+                                                    </div>
+                                                        </div>
+                                                <p class="text-gray-700 mb-3">${comment.content}</p>
+                                                <div class="replies ml-8 space-y-3">
+                                                        ${comment.replies.map(reply => `
+                                                        <div class="reply bg-white rounded p-3">
+                                                            <div class="text-sm text-gray-500 mb-1">
+                                                                <span class="font-semibold">${reply.user.name}</span>
+                                                                ${reply.user.cohort ? `<span class="ml-2">(${reply.user.cohort})</span>` : ''}
+                                                                <span class="ml-2">• ${new Date(reply.createdAt).toLocaleString()}</span>
+                                                                        </div>
+                                                            <p class="text-gray-700">${reply.content}</p>
+                                                            </div>
+                                                        `).join('')}
+                                                    </div>
+                                                ${data.user ? `
+                                                    <div class="mt-3">
+                                                        <button onclick="showReplyForm(${comment.id})" class="text-blue-500 hover:text-blue-700 text-sm">
+                                                            Reply
+                                                        </button>
+                                                        <div id="replyForm-${comment.id}" class="hidden mt-2">
+                                                            <textarea class="w-full p-2 border rounded" rows="2" placeholder="Write your reply..."></textarea>
+                                                            <div class="mt-2 flex justify-end space-x-2">
+                                                                <button onclick="hideReplyForm(${comment.id})" class="px-3 py-1 text-gray-600 hover:text-gray-800">
+                                                                    Cancel
+                                                                </button>
+                                                                <button onclick="submitReply(${comment.id})" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                                                    Submit Reply
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        `).join('')}
+                                        </div>
+                                    ${data.user ? `
+                                        <div class="mt-6">
+                                            <textarea id="newComment" class="w-full p-3 border rounded" rows="3" placeholder="Write your comment..."></textarea>
+                                            <div class="mt-2 flex justify-end">
+                                                <button onclick="submitComment()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                                    Post Comment
+                                                </button>
+                                        </div>
+                                            </div>
+                                    ` : `
+                                        <div class="mt-6 text-center text-gray-500">
+                                            Please log in to participate in the discussion.
+                                            </div>
+                                    `}
+                                `;
+
+                                forumModal.classList.remove('hidden');
+                            })
+                            .catch(error => {
+                                console.error('Error loading forum details:', error);
+                                console.error('Error details:', {
+                                    message: error.message,
+                                    stack: error.stack,
+                                    forumId: forumId
+                                });
+                                alert('Error loading forum details. Please try again.');
+                            });
+                    }
+
+                    // Submit a new comment
+                    function submitComment() {
+                        if (!currentForumId || !currentUser) {
+                            console.log('Cannot submit comment:', { currentForumId, currentUser });
+                            return;
+                        }
+
+                        const content = document.getElementById('newComment')?.value?.trim() || '';
+                        console.log('Submitting comment:', { forumId: currentForumId, content });
+                        console.log('API endpoint:', `/api/forum/${currentForumId}/comment`);
+
+                        fetch(`/api/forum/${currentForumId}/comment`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ content })
+                        })
+                        .then(async response => {
+                            console.log('Comment submission response status:', response.status);
+                            console.log('Comment submission response headers:', Object.fromEntries(response.headers.entries()));
+                            if (!response.ok) {
+                                const text = await response.text();
+                                throw new Error(text || 'Failed to post comment');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Comment submission response:', data);
+                            if (data.comment) {
+                                document.getElementById('newComment').value = '';
+                                viewForum(currentForumId); // Reload forum to show new comment
+                            } else {
+                                throw new Error(data.message || 'Failed to post comment');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error posting comment:', error);
+                            console.error('Error details:', {
+                                message: error.message,
+                                stack: error.stack,
+                                forumId: currentForumId,
+                                content: content
+                            });
+                            alert(error.message || 'Error posting comment. Please try again.');
+                        });
+                    }
+
+                    // Show reply form for a comment
+                    function showReplyForm(commentId) {
+                        const replyForm = document.getElementById(`replyForm-${commentId}`);
+                        if (replyForm) {
+                            replyForm.classList.remove('hidden');
+                        }
+                    }
+
+                    // Hide reply form
+                    function hideReplyForm(commentId) {
+                        const replyForm = document.getElementById(`replyForm-${commentId}`);
+                        if (replyForm) {
+                            replyForm.classList.add('hidden');
+                            replyForm.querySelector('textarea').value = '';
+                        }
+                    }
+
+                    // Submit a reply to a comment
+                    function submitReply(commentId) {
+                        if (!currentForumId || !currentUser) {
+                            console.log('Cannot submit reply:', { currentForumId, currentUser, commentId });
+                            return;
+                        }
+
+                        const replyForm = document.getElementById(`replyForm-${commentId}`);
+                        const content = replyForm.querySelector('textarea').value.trim();
+                        console.log('Submitting reply:', { forumId: currentForumId, commentId, content });
+                        console.log('API endpoint:', `/api/forum/${currentForumId}/comment/${commentId}/reply`);
+
+                        fetch(`/api/forum/${currentForumId}/comment/${commentId}/reply`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ content })
+                        })
+                        .then(async response => {
+                            console.log('Reply submission response status:', response.status);
+                            console.log('Reply submission response headers:', Object.fromEntries(response.headers.entries()));
+                            if (!response.ok) {
+                                const text = await response.text();
+                                throw new Error(text || 'Failed to post reply');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Reply submission response:', data);
+                            if (data.reply) {
+                                hideReplyForm(commentId);
+                                viewForum(currentForumId); // Reload forum to show new reply
+                            } else {
+                                throw new Error(data.message || 'Failed to post reply');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error posting reply:', error);
+                            console.error('Error details:', {
+                                message: error.message,
+                                stack: error.stack,
+                                forumId: currentForumId,
+                                commentId: commentId,
+                                content: content
+                            });
+                            alert(error.message || 'Error posting reply. Please try again.');
+                        });
+                    }
+
+                    // Create a new forum
+                    function createForum() {
+                        if (!currentUser) {
+                            console.log('Cannot create forum: User not logged in');
+                            return;
+                        }
+
+                        const title = document.getElementById('topicTitle').value.trim();
+                        const description = document.getElementById('topicDescription').value.trim();
+                        const autoExpireAfter = document.querySelector('input[name="autoExpire"]:checked').value;
+                        const courseId = '<%= course.id %>';
+
+                        console.log('Creating new forum:', { title, description, autoExpireAfter, courseId });
+                        console.log('API endpoint:', '/api/forum/create');
+
+                        fetch('/api/forum/create', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                title,
+                                description,
+                                courseId,
+                                autoExpireAfter: autoExpireAfter || null
+                            })
+                        })
+                        .then(response => {
+                            console.log('Forum creation response status:', response.status);
+                            console.log('Forum creation response headers:', Object.fromEntries(response.headers.entries()));
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Forum creation response:', data);
+                            if (data.forum) {
+                                // Close modal and reset form
+                                const createForumModal = document.getElementById('createForumModal');
+                                if (createForumModal) {
+                                    createForumModal.classList.add('hidden');
+                                }
+                                document.getElementById('topicTitle').value = '';
+                                document.getElementById('topicDescription').value = '';
+                                document.getElementById('autoExpireAfter').value = '';
+                                
+                                // Reload forums
+                                loadForums();
+                            } else {
+                                throw new Error(data.message || 'Failed to create forum');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error creating forum:', error);
+                            console.error('Error details:', {
+                                message: error.message,
+                                stack: error.stack,
+                                title: title,
+                                description: description,
+                                courseId: courseId,
+                                autoExpireAfter: autoExpireAfter
+                            });
+                            alert(error.message || 'Error creating forum. Please try again.');
+                        });
+                    }
+
+                    // Delete a forum
+                    function deleteForum(forumId) {
+                        if (!forumId) {
+                            console.error('No forum ID provided for deletion');
+                            return;
+                        }
+
+                        console.log('Attempting to delete forum:', forumId);
+                        console.log('API endpoint:', `/api/forum/${forumId}`);
+
+                        if (!confirm('Are you sure you want to delete this forum? This action cannot be undone.')) {
+                            console.log('Forum deletion cancelled by user');
+                            return;
+                        }
+
+                        fetch(`/api/forum/${forumId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            console.log('Forum deletion response status:', response.status);
+                            if (!response.ok) {
+                                throw new Error('Failed to delete forum');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Forum deletion response:', data);
+                            if (data.message === 'Forum deleted successfully') {
+                                // If we're in the forum detail view, go back to the list
+                                if (document.getElementById('forumDetail').style.display === 'block') {
+                                    backToForumList();
+                                }
+                                // Reload forums list
+                                loadForums();
+                            } else {
+                                throw new Error(data.message || 'Failed to delete forum');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error deleting forum:', error);
+                            console.error('Error details:', {
+                                message: error.message,
+                                stack: error.stack,
+                                forumId: forumId
+                            });
+                            alert(error.message || 'Error deleting forum. Please try again.');
+                        });
+                    }
+
+                    // Close forum modal
+                    function closeForumModal() {
+                        const forumModal = document.getElementById('forumModal');
+                        if (forumModal) {
+                            forumModal.classList.add('hidden');
+                        }
+                        currentForumId = null;
+                    }
+
+                    // Close create forum modal
+                    function closeCreateForumModal() {
+                        const createForumModal = document.getElementById('createForumModal');
+                        if (createForumModal) {
+                            createForumModal.classList.add('hidden');
+                        }
+                    }
+
+                    // Load forums when the page loads
+                    document.addEventListener('DOMContentLoaded', loadForums);
+
+                    // Function to show forum list and hide forum detail
+                    function backToForumList() {
+                        document.getElementById('forumList').style.display = 'block';
+                        document.getElementById('forumDetail').style.display = 'none';
+                        currentForumId = null;
+                    }
+
+                    // Function to show forum detail and hide forum list
+                    function showForumDetail() {
+                        document.getElementById('forumList').style.display = 'none';
+                        document.getElementById('forumDetail').style.display = 'block';
+                    }
+
+                    // Function to open new topic modal
+                    function createNewTopic() {
+                        const modal = new bootstrap.Modal(document.getElementById('newTopicModal'));
+                        modal.show();
+                    }
+
+                    // Add event listeners for expiration type radio buttons
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Initial state setup
+                        const presetOptions = document.getElementById('presetDurationOptions');
+                        const customDateInput = document.getElementById('customDateInput');
+                        const expirationTypeRadios = document.querySelectorAll('input[name="expirationType"]');
+                        
+                        // Set initial state based on checked radio
+                        const checkedRadio = document.querySelector('input[name="expirationType"]:checked');
+                        if (checkedRadio) {
+                            if (checkedRadio.value === 'preset') {
+                                presetOptions.style.display = 'flex';
+                                customDateInput.style.display = 'none';
+                            } else if (checkedRadio.value === 'custom') {
+                                presetOptions.style.display = 'none';
+                                customDateInput.style.display = 'block';
+                            } else {
+                                presetOptions.style.display = 'none';
+                                customDateInput.style.display = 'none';
+                            }
+                        }
+
+                        // Add change event listeners
+                        expirationTypeRadios.forEach(radio => {
+                            radio.addEventListener('change', function() {
+                                if (this.value === 'preset') {
+                                    presetOptions.style.display = 'flex';
+                                    customDateInput.style.display = 'none';
+                                    // Select first preset duration option by default
+                                    const firstPresetOption = document.querySelector('input[name="autoExpire"]');
+                                    if (firstPresetOption) {
+                                        firstPresetOption.checked = true;
+                                    }
+                                } else if (this.value === 'custom') {
+                                    presetOptions.style.display = 'none';
+                                    customDateInput.style.display = 'block';
+                                } else {
+                                    presetOptions.style.display = 'none';
+                                    customDateInput.style.display = 'none';
+                                }
+                            });
+                        });
+                    });
+
+                    // Function to submit new topic
+                    function submitNewTopic() {
+                        const title = document.getElementById('topicTitle').value.trim();
+                        const description = document.getElementById('topicDescription').value.trim();
+                        const expirationType = document.querySelector('input[name="expirationType"]:checked').value;
+                        
+                        let expiresAt = null;
+                        if (expirationType === 'preset') {
+                            const hours = document.querySelector('input[name="autoExpire"]:checked')?.value;
+                            if (hours) {
+                                expiresAt = new Date();
+                                expiresAt.setHours(expiresAt.getHours() + parseInt(hours));
+                            }
+                        } else if (expirationType === 'custom') {
+                            const customDate = document.getElementById('customExpiryDate').value;
+                            if (customDate) {
+                                expiresAt = new Date(customDate);
+                            }
+                        }
+
+                        if (!title || !description) {
+                            alert('Please fill in all required fields');
+                            return;
+                        }
+
+                        fetch('/api/forum/create', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                title,
+                                description,
+                                courseId: '<%= course.id %>',
+                                expiresAt: expiresAt ? expiresAt.toISOString() : null
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.forum) {
+                                // Close modal
+                                const modal = bootstrap.Modal.getInstance(document.getElementById('newTopicModal'));
+                                modal.hide();
+                                
+                                // Reset form
+                                document.getElementById('topicTitle').value = '';
+                                document.getElementById('topicDescription').value = '';
+                                document.getElementById('customExpiryDate').value = '';
+                                document.querySelector('input[name="expirationType"][value="none"]').checked = true;
+                                document.getElementById('presetDurationOptions').style.display = 'none';
+                                document.getElementById('customDateInput').style.display = 'none';
+                                
+                                // Reload forums
+                                loadForums();
+                            } else {
+                                throw new Error(data.message || 'Failed to create forum');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error creating forum:', error);
+                            alert(error.message || 'Error creating forum. Please try again.');
+                        });
+                    }
+
+                    // View forum details
+                    function viewForum(forumId) {
+                        console.log('Viewing forum:', forumId);
+                        currentForumId = forumId;
+                        
+                        // Show loading state
+                        document.getElementById('forumList').style.display = 'none';
+                        document.getElementById('forumDetail').style.display = 'block';
+                        document.getElementById('commentsList').innerHTML = `
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        `;
+                        
+                        fetch(`/api/forum/${forumId}/details`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to load forum details');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (!data.forum) {
+                                    throw new Error('Forum not found');
+                                }
+
+                                // Update forum detail view
+                                document.getElementById('forumTitle').textContent = data.forum.title;
+                                document.getElementById('forumDescription').textContent = data.forum.description;
+                                document.getElementById('forumAuthor').textContent = data.forum.createdBy?.name || 'Unknown User';
+                                document.getElementById('forumCohort').textContent = data.forum.createdBy?.cohort || '';
+                                document.getElementById('forumDate').textContent = new Date(data.forum.createdAt).toLocaleString();
+                                document.getElementById('forumViews').textContent = data.forum.viewCount || 0;
+
+                                // Handle last activity
+                                const lastActivityContainer = document.getElementById('lastActivityContainer');
+                                if (data.forum.lastActivityAt) {
+                                    lastActivityContainer.style.display = 'inline-flex';
+                                    document.getElementById('lastActivityTime').textContent = new Date(data.forum.lastActivityAt).toLocaleString();
+                                    document.getElementById('lastActivityUser').textContent = data.forum.lastActivityUser?.name || 'Unknown User';
+                                    document.getElementById('lastActivityCohort').textContent = data.forum.lastActivityUser?.cohort || '';
+                                } else {
+                                    lastActivityContainer.style.display = 'none';
+                                }
+
+                                // Handle forum status
+                                const forumStatus = document.getElementById('forumStatus');
+                                if (!data.forum.isActive) {
+                                    forumStatus.innerHTML = '<span class="badge bg-danger">Inactive</span>';
+                                } else if (data.forum.expiresAt && new Date(data.forum.expiresAt) < new Date()) {
+                                    forumStatus.innerHTML = '<span class="badge bg-warning">Expired</span>';
+                                } else {
+                                    forumStatus.innerHTML = '';
+                                }
+
+                                // Handle forum actions
+                                const forumActions = document.getElementById('forumActions');
+                                if (data.user && (data.user.role?.permissions?.some(p => p.name === 'Manage Forums') || data.forum.createdById === data.user.id)) {
+                                    forumActions.style.display = 'block';
+                                } else {
+                                    forumActions.style.display = 'none';
+                                }
+
+                                // Render comments
+                                const commentsList = document.getElementById('commentsList');
+                                if (data.forum.comments.length === 0) {
+                                    commentsList.innerHTML = '<p class="text-muted text-center py-4">No comments yet. Be the first to comment!</p>';
+                                } else {
+                                    commentsList.innerHTML = data.forum.comments.map(comment => `
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <h6 class="mb-0">${comment.user?.name || 'Unknown User'}</h6>
+                                                        ${comment.user?.cohort ? `<span class="badge bg-light text-dark">${comment.user.cohort}</span>` : ''}
+                                                        <small class="text-muted d-block">${new Date(comment.createdAt).toLocaleString()}</small>
+                                                    </div>
+                                                </div>
+                                                <p class="mb-2">${comment.content}</p>
+                                                
+                                                <!-- Replies -->
+                                                ${comment.replies.length > 0 ? `
+                                                    <div class="ms-4 mt-3">
+                                                        ${comment.replies.map(reply => `
+                                                            <div class="card mb-2">
+                                                                <div class="card-body py-2">
+                                                                    <div class="d-flex justify-content-between align-items-start">
+                                                                        <div>
+                                                                            <h6 class="mb-0">${reply.user?.name || 'Unknown User'}</h6>
+                                                                            ${reply.user?.cohort ? `<span class="badge bg-light text-dark">${reply.user.cohort}</span>` : ''}
+                                                                            <small class="text-muted d-block">${new Date(reply.createdAt).toLocaleString()}</small>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="mb-0 mt-1">${reply.content}</p>
+                                                                </div>
+                                                            </div>
+                                                        `).join('')}
+                                                    </div>
+                                                ` : ''}
+
+                                                <!-- Reply form -->
+                                                ${data.user ? `
+                                                    <div class="mt-3">
+                                                        <button onclick="showReplyForm(${comment.id})" class="btn btn-link btn-sm p-0">
+                                                            <i class="ph ph-reply"></i> Reply
+                                                        </button>
+                                                        <div id="replyForm-${comment.id}" class="mt-2" style="display: none;">
+                                                            <textarea class="form-control mb-2" rows="2" placeholder="Write your reply..."></textarea>
+                                                            <div class="d-flex gap-2">
+                                                                <button onclick="hideReplyForm(${comment.id})" class="btn btn-secondary btn-sm">Cancel</button>
+                                                                <button onclick="submitReply(${comment.id})" class="btn btn-primary btn-sm">Submit Reply</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    `).join('');
+                                }
+
+                                // Show/hide comment form based on user login status
+                                document.getElementById('commentFormContainer').style.display = data.user ? 'block' : 'none';
+                            })
+                            .catch(error => {
+                                console.error('Error loading forum details:', error);
+                                document.getElementById('commentsList').innerHTML = `
+                                    <div class="alert alert-danger m-3">
+                                        Error loading forum details. Please try again.
+                                    </div>
+                                `;
+                            });
+                    }
+                    </script>
+                    <!-- Jquery js -->
+                    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+                    <!-- Bootstrap Bundle Js -->
+                    <script src="/assets/js/boostrap.bundle.min.js"></script>
+                    <!-- select2 Js -->
+                    <script src="/assets/js/select2.min.js"></script>
+                    <!-- Phosphor Icon Js -->
+                    <script src="/assets/js/phosphor-icon.js"></script>
+                    <!-- Slick js -->
+                    <script src="/assets/js/slick.min.js"></script>
+                    <!-- Slick js -->
+                    <script src="/assets/js/counter.min.js"></script>
+                    <!-- magnific popup -->
+                    <script src="/assets/js/magnific-popup.min.js"></script>
+                    <!-- Jquery Ui js -->
+                    <script src="/assets/js/jquery-ui.js"></script>
+                    <!-- plyr Js -->
+                    <script src="/assets/js/plyr.js"></script>
+                    <!-- vanilla Tilt -->
+                    <script src="/assets/js/vanilla-tilt.min.js"></script>
+                    <!-- wow -->
+                    <script src="/assets/js/wow.min.js"></script>
+
+                    <script src="/assets/js/aos.js"></script>
+
+                    <!-- main js -->
+                    <script src="/assets/js/main.js"></script>
+
+                    <script>
+                        // Add smooth animations on page load
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const cards = document.querySelectorAll('.course-card');
+                            cards.forEach((card, index) => {
+                                card.style.opacity = '0';
+                                card.style.transform = 'translateY(20px)';
+                                
+                                setTimeout(() => {
+                                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'translateY(0)';
+                                }, index * 100);
+                            });
+                        });
+
+                        // Add click animation to forum buttons
+                        document.querySelectorAll('.btn-forums').forEach(btn => {
+                            btn.addEventListener('click', function(e) {
+                                this.style.transform = 'scale(0.95)';
+                                setTimeout(() => {
+                                    this.style.transform = '';
+                                }, 150);
+                            });
+                        });
+
+                        // Check for tab parameter and open the appropriate tab
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const tabParam = urlParams.get('tab');
+                        
+                        if (tabParam === 'forum') {
+                            // Activate the forum tab
+                            const forumTab = document.getElementById('v-pills-forum-tab');
+                            const forumPane = document.getElementById('v-pills-forum');
+                            
+                            if (forumTab && forumPane) {
+                                // Remove active class from all tabs and panes
+                                document.querySelectorAll('#v-pills-tab .nav-link').forEach(tab => {
+                                    tab.classList.remove('active');
+                                });
+                                document.querySelectorAll('#v-pills-tabContent .tab-pane').forEach(pane => {
+                                    pane.classList.remove('show', 'active');
+                                });
+                                
+                                // Activate forum tab and pane
+                                forumTab.classList.add('active');
+                                forumPane.classList.add('show', 'active');
+                                
+                                // Load forums after tab is shown
+                                setTimeout(() => {
+                                    if (typeof loadForums === 'function') {
+                                        loadForums();
+                                    }
+                                }, 100);
+                            }
+                        }
+                    </script>
+</body>
+
+</html>

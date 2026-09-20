@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow, max-snippet:500, max-image-preview:large, max-video-preview:-1">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdu-edu.org/courses">
+
+    <title>Checkout - PDU ™</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/logo/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- select2 -->
+    <link rel="stylesheet" href="/assets/css/select2.min.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <!-- jquery-ui -->
+    <link rel="stylesheet" href="/assets/css/jquery-ui.css">
+    <!-- plyr Css -->
+    <link rel="stylesheet" href="/assets/css/plyr.css">
+    <!-- animate -->
+    <link rel="stylesheet" href="/assets/css/animate.css">
+
+    <link rel="stylesheet" href="/assets/css/aos.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<style>
+    .payment-form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .StripeElement {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        transition: border-color 0.3s ease;
+    }
+
+    .StripeElement:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .btn-lg {
+        font-size: 1.25rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+    .participant-form{
+        background-color: #fff;
+    }
+    #govermentPricingYes{
+        height: fit-content;
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+    .checkoutform input[type="radio"] {    
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+    .order-summary{
+        background-color: #fff;
+    }
+</style>
+
+<body>
+
+    <%- include('header'); -%>
+
+        <section class="breadcrumb py-120 bg-main-25 position-relative z-1 overflow-hidden mb-0">
+            <img src="/assets/images/shapes/shape1.png" alt="" class="shape one animation-rotation d-md-block d-none">
+            <img src="/assets/images/shapes/shape2.png" alt="" class="shape two animation-scalation d-md-block d-none">
+            <img src="/assets/images/shapes/shape3.png" alt="" class="shape eight animation-walking d-md-block d-none">
+            <img src="/assets/images/shapes/shape5.png" alt="" class="shape six animation-walking d-md-block d-none">
+            <img src="/assets/images/shapes/shape4.png" alt="" class="shape four animation-scalation">
+            <img src="/assets/images/shapes/shape4.png" alt="" class="shape nine animation-scalation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="breadcrumb__wrapper mb-4">
+                            <h1 class="breadcrumb__title display-4 fw-semibold text-center">Enroll - <%=
+                                    course.title %>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </section>
+            <div class="container mt-30 mb-30">
+                <form action="/enroll/" class="checkoutform" method="post">
+                    <div class="row">
+                        <div class="col-lg-8">                            
+                            <!-- Participants Form -->
+                            <div id="participants-section p-5">
+                                <h3 class="">Participants</h3>
+                                <div id="participant-forms">
+                                    <div class="participant-form border p-30 rounded mb-3">
+                                        <h5 class="d-flex justify-content-between">
+                                            Participant 1
+                                            <button class="btn btn-danger btn-sm remove-participant d-none"
+                                                disabled>Remove</button>
+                                        </h5>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="first-name-1" class="form-label">First Name</label>
+                                                    <input type="text" class="form-control" id="first-name-1"
+                                                        name="firstName[]">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="business-email-1" class="form-label">Business
+                                                        Email</label>
+                                                    <input type="email" class="form-control" id="business-email-1"
+                                                        name="businessEmail[]">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="company-name-1" class="form-label">Company Name</label>
+                                                    <input type="text" class="form-control" id="company-name-1"
+                                                        name="companyName[]">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="work-phone-1" class="form-label">Work Phone</label>
+                                                    <input type="text" class="form-control" id="work-phone-1"
+                                                        name="workPhone[]">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="city-1" class="form-label">City</label>
+                                                    <input type="text" class="form-control" id="city-1" name="city[]">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="zip-1" class="form-label">Zip Code</label>
+                                                    <input type="text" class="form-control" id="zip-1" name="zipcode[]">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="last-name-1" class="form-label">Last Name</label>
+                                                    <input type="text" class="form-control" id="last-name-1"
+                                                        name="lastName[]">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="job-title-1" class="form-label">Job Title</label>
+                                                    <input type="text" class="form-control" id="job-title-1"
+                                                        name="jobTitle[]">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="address-1" class="form-label">Address</label>
+                                                    <input type="text" class="form-control" id="address-1"
+                                                        name="address[]">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="apt-1" class="form-label">Apt, Suite, etc
+                                                        (Optional)</label>
+                                                    <input type="text" class="form-control" id="apt-1" name="apt[]">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="country-1" class="form-label">Country</label>
+                                                    <select class="form-select" id="country-1" name="country[]">
+                                                        <% countries.forEach(country=> { %>
+                                                            <option value="<%= country.name %>">
+                                                                <%= country.name %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="state-1" class="form-label">State</label>
+                                                    <input type="text" class="form-control" id="state-1" name="state[]">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-20">
+                                            <label for="comment-1" class="form-label">Comments</label>
+                                            <textarea class="form-control" id="comment-1" name="comments[]"></textarea>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="form-check" style="margin-right: 20px;">
+                                                <input class="form-check-input" type="radio" id="online-virtual-1"
+                                                    name="mode[0]" value="virtual">
+                                                <label class="form-check-label" for="online-virtual-1">Virtual</label>
+                                            </div>
+                                            <div class="form-check" style="margin-right: 20px;">
+                                                <input class="form-check-input" type="radio" id="online-self-paced-1"
+                                                    name="mode[0]" value="self-paced">
+                                                <label class="form-check-label" for="online-self-paced-1">Self-paced</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary mt-20 mb-20" id="add-participant" type="button">+ Add Additional
+                                    Participant</button>
+
+                            </div>
+
+                            <!-- Billing Address -->
+                            <div class="my-5">
+                                <h3 class="mb-3">Billing Address</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="billing-first-name" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="billing-first-name"
+                                                name="billingFirstName">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="billing-business-email" class="form-label">Business
+                                                Email</label>
+                                            <input type="email" class="form-control" id="billing-business-email"
+                                                name="billingBusinessEmail">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="billing-city" class="form-label">City</label>
+                                            <input type="text" class="form-control" id="billing-city"
+                                                name="billingCity">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="billing-job-title" class="form-label">Company Name</label>
+                                            <input type="text" class="form-control" id="billing-job-title"
+                                                name="billingCompanyName">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="billing-job-title" class="form-label">Zip Code</label>
+                                            <input type="text" class="form-control" id="billing-job-title"
+                                                name="billingZipCode">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="billing-job-title" class="form-label">State</label>
+                                            <input type="text" class="form-control" id="billing-job-title"
+                                                name="stateBilling">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="billing-last-name" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="billing-last-name"
+                                                name="billingLastName">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="billing-job-title" class="form-label">Job Title</label>
+                                            <input type="text" class="form-control" id="billing-job-title"
+                                                name="billingJobTitle">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="billing-country" class="form-label">Country</label>
+                                            <select class="form-select" id="billing-country" name="billingCountry">
+                                                <% countries.forEach(country=> { %>
+                                                    <option value="<%= country.name %>">
+                                                        <%= country.name %>
+                                                    </option>
+                                                    <% }); %>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="billing-job-title" class="form-label">Address</label>
+                                            <input type="text" class="form-control" id="billing-job-title"
+                                                name="addressCompanyName">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="billing-job-title" class="form-label">Apt. Suit, Appartment
+                                                (Optional)</label>
+                                            <input type="text" class="form-control" id="billing-job-title"
+                                                name="billingApt">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="billing-job-title" class="form-label">Work Phone</label>
+                                            <input type="text" class="form-control" id="billing-job-title"
+                                                name="billingWorkPhone">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="col-lg-4">
+                            <h3>Order Summary</h3>
+                            <div class="order-summary border p-20 rounded">                                
+                                <div class="d-flex justify-content-between">
+                                    <span>
+                                        <%= course.title %>
+                                    </span>
+                                    <span>$<%= course.price %></span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <span>Subtotal</span>
+                                    <span>$<%= course.price %></span>
+                                </div>
+                                <hr>
+                                <div class="d-flex flex-column my-5">
+                                    <div class="">
+                                        <label for="coupon" class="form-label"><b>Goverment Pricing</b></label>
+                                        <div class="d-flex">
+                                            <input type="checkbox" name="govermentPricing" value="true"
+                                                id="govermentPricingYes">
+                                            <label for="govermentPricingYes">Please check this box if you qualify for
+                                                GSA
+                                                pricing.</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <!-- Coupon Code -->
+                                <div class="d-flex flex-column my-5">
+                                    <label for="couponCode" class="form-label"><b>Coupon Code</b></label>
+                                    <div class="d-flex gap-2">
+                                        <input type="text" id="couponCode" class="form-control" placeholder="Enter coupon code">
+                                        <button class="btn btn-secondary" type="button" id="applyCouponBtn">Apply</button>
+                                    </div>
+                                    <div class="text-success mt-2 d-none" id="couponSuccess"></div>
+                                    <div class="text-danger mt-2 d-none" id="couponError"></div>
+                                    <input type="hidden" name="couponCode" id="appliedCouponCode">
+                                    <input type="hidden" name="couponDiscount" id="appliedCouponDiscount">
+                                </div>
+                                <hr>
+                                <div class="d-flex flex-column my-5">
+                                    <div class="mb-5">
+                                        <label for="coupon" class="form-label"><b>Mode of Payment</b></label>
+                                        <div class="d-flex">
+                                            <input type="radio" name="paymentMode" value="credit card"
+                                                id="creditcardYes">
+                                            <label for="creditcardYes">Immediate payment by credit card.</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <div class="d-flex">
+                                            <input type="radio" name="paymentMode" value="delayed payment by invoice"
+                                                id="delayedpaymentYes">
+                                            <label for="delayedpaymentYes">Delayed Payment by Invoice</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <div class="d-flex">
+                                            <input type="radio" name="paymentMode" value="prepaid company voucher"
+                                                id="prepaidpaymentYes">
+                                            <label for="prepaidpaymentYes">Prepaid Company Voucher</label>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <input type="text" name="courseId" value="<%= course.id %>" hidden>
+                                    <input type="text" name="coursePrice" value="<%= course.price %>" hidden>
+                                    <input type="text" name="courseName" value="<%= course.title %>" hidden>
+                                    <div class="mb-5">
+                                        <button class="btn btn-primary btn-lg w-100" type="submit">
+                                            Checkout
+                                        </button>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <span>Discount</span>
+                                        <span id="order-discount">$0.00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Total</span>
+                                        <span id="order-total">$<%= course.price %></span>
+                                    </div>
+                                    <hr>
+                                    <span>
+                                        The price subtotal excludes taxes. Taxes and fees, if applicable, will be
+                                        added after registration is complete.
+                                    </span>
+                                    <span>
+                                        By finalizing your reservation, you consent to our <a href="/terms-of-service">Terms and Conditions</a>
+                                        and <a href="/privacy-policy">Privacy Policy</a>.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+            </div>
+            </div>
+        </section>
+
+        <%- include('footer'); -%>
+
+            <!-- Jquery js -->
+            <script src="/assets/js/jquery-3.7.1.min.js"></script>
+            <!-- Bootstrap Bundle Js -->
+            <script src="/assets/js/boostrap.bundle.min.js"></script>
+            <!-- select2 Js -->
+            <script src="/assets/js/select2.min.js"></script>
+            <!-- Phosphor Icon Js -->
+            <script src="/assets/js/phosphor-icon.js"></script>
+            <!-- Slick js -->
+            <script src="/assets/js/slick.min.js"></script>
+            <!-- Slick js -->
+            <script src="/assets/js/counter.min.js"></script>
+            <!-- magnific popup -->
+            <script src="/assets/js/magnific-popup.min.js"></script>
+            <!-- Jquery Ui js -->
+            <script src="/assets/js/jquery-ui.js"></script>
+            <!-- plyr Js -->
+            <script src="/assets/js/plyr.js"></script>
+            <!-- vanilla Tilt -->
+            <script src="/assets/js/vanilla-tilt.min.js"></script>
+            <!-- wow -->
+            <script src="/assets/js/wow.min.js"></script>
+
+            <script src="/assets/js/aos.js"></script>
+
+            <!-- main js -->
+            <script src="/assets/js/main.js"></script>
+            <script>
+                // const stripe = Stripe('<%= pb_key %>');
+                // const elements = stripe.elements();
+                // const card = elements.create('card');
+                // card.mount('#card-element');
+
+                // const form = document.getElementById('payment-form');
+                // form.addEventListener('submit', async (event) => {
+                //     event.preventDefault();
+
+                //     const { error, paymentMethod } = await stripe.createPaymentMethod({
+                //         type: 'card',
+                //         card: card,
+                //     });
+
+                //     if (error) {
+                //         console.error(error.message);
+                //     } else {
+                //         document.getElementById('paymentMethodId').value = paymentMethod.id;
+                //         form.submit();
+                //     }
+                // });
+                let participantCount = 1;
+
+                document.getElementById('add-participant').addEventListener('click', () => {
+                    participantCount++;
+                    const participantForms = document.getElementById('participant-forms');
+
+                    const participantForm = document.createElement('div');
+                    participantForm.className = 'participant-form border p-30 rounded mb-3';
+                    participantForm.innerHTML = `
+        <h5 class="d-flex justify-content-between">
+            Participant ${participantCount}
+            <button class="btn btn-danger btn-sm remove-participant">Remove</button>
+        </h5>
+        <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="first-name-1" class="form-label">First Name</label>
+                                                <input type="text" class="form-control" id="first-name-1"
+                                                    name="firstName[]">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="business-email-1" class="form-label">Business Email</label>
+                                                <input type="email" class="form-control" id="business-email-1"
+                                                    name="businessEmail[]">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="company-name-1" class="form-label">Company Name</label>
+                                                <input type="text" class="form-control" id="company-name-1"
+                                                    name="companyName[]">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="work-phone-1" class="form-label">Work Phone</label>
+                                                <input type="text" class="form-control" id="work-phone-1"
+                                                    name="workPhone[]">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="city-1" class="form-label">City</label>
+                                                <input type="text" class="form-control" id="city-1" name="city[]">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="zip-1" class="form-label">Zip Code</label>
+                                                <input type="text" class="form-control" id="zip-1" name="zipcode[]">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="last-name-1" class="form-label">Last Name</label>
+                                                <input type="text" class="form-control" id="last-name-1"
+                                                    name="lastName[]">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="job-title-1" class="form-label">Job Title</label>
+                                                <input type="text" class="form-control" id="job-title-1"
+                                                    name="jobTitle[]">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="address-1" class="form-label">Address</label>
+                                                <input type="text" class="form-control" id="address-1" name="address[]">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="apt-1" class="form-label">Apt, Suite, etc (Optional)</label>
+                                                <input type="text" class="form-control" id="apt-1" name="apt[]">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="country-1" class="form-label">Country</label>
+                                                <select class="form-select" id="country-1" name="country[]">
+                                                    <% countries.forEach(country=> { %>
+                                                    <option value="<%= country.name %>">
+                                                        <%= country.name %>
+                                                    </option>
+                                                    <% }); %>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="state-1" class="form-label">State</label>
+                                                <input type="text" class="form-control" id="state-1" name="state[]">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="comment-1" class="form-label">Comments</label>
+                                        <textarea class="form-control" id="comment-1" name="comments[]"></textarea>
+                                    </div>
+                                    <div class="d-flex">
+                                            <div class="form-check" style="margin-right: 20px;">
+                                                <input class="form-check-input" type="radio" id="online-virtual-1"
+                                                    name="mode[${participantCount - 1}]" value="virtual">
+                                                <label class="form-check-label" for="online-virtual-1">Virtual</label>
+                                            </div>
+                                            <div class="form-check" style="margin-right: 20px;">
+                                                <input class="form-check-input" type="radio" id="online-self-paced-1"
+                                                    name="mode[${participantCount - 1}]" value="self-paced">
+                                                <label class="form-check-label" for="online-self-paced-1">Self-paced</label>
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                    
+    `;
+
+                    participantForms.appendChild(participantForm);
+
+                    toggleRemoveButtons();
+                });
+
+                document.getElementById('participant-forms').addEventListener('click', (e) => {
+                    if (e.target.classList.contains('remove-participant')) {
+                        e.target.closest('.participant-form').remove();
+                        participantCount--;
+                        toggleRemoveButtons();
+                    }
+                });
+
+                function toggleRemoveButtons() {
+                    const removeButtons = document.querySelectorAll('.remove-participant');
+                    removeButtons.forEach(button => button.classList.toggle('d-none', participantCount <= 1));
+                }
+                document.querySelector('.checkoutform').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    let isValid = true;
+    let firstEmptyField = null;
+    let missingFields = [];
+
+    // Validate all participant forms
+    const participantForms = document.querySelectorAll('.participant-form');
+    participantForms.forEach((form, index) => {
+        const participantNum = index + 1;
+        
+        // Required fields for each participant
+        const requiredFields = {
+            [`firstName[]`]: 'First Name',
+            [`lastName[]`]: 'Last Name',
+            [`businessEmail[]`]: 'Business Email',
+            [`jobTitle[]`]: 'Job Title',
+            [`companyName[]`]: 'Company Name',
+            [`workPhone[]`]: 'Work Phone',
+            [`address[]`]: 'Address',
+            [`city[]`]: 'City',
+            [`state[]`]: 'State',
+            [`zipcode[]`]: 'Zip Code',
+            [`country[]`]: 'Country'
+        };
+
+        // Check each required field within the participant form
+        for (const [fieldName, fieldLabel] of Object.entries(requiredFields)) {
+            const field = form.querySelector(`[name="${fieldName}"]`);
+            if (!field) continue;
+
+            const value = field.value.trim();
+            if (!value) {
+                isValid = false;
+                field.classList.add('is-invalid');
+                
+                if (!firstEmptyField) {
+                    firstEmptyField = field;
+                }
+                
+                missingFields.push(`${fieldLabel} for Participant ${participantNum}`);
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        }
+
+        // Validate email format
+        const emailField = form.querySelector('[name="businessEmail[]"]');
+        if (emailField && emailField.value.trim()) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailField.value.trim())) {
+                isValid = false;
+                emailField.classList.add('is-invalid');
+                missingFields.push(`Valid email address for Participant ${participantNum}`);
+                if (!firstEmptyField) {
+                    firstEmptyField = emailField;
+                }
+            }
+        }
+
+        // Check if mode (virtual/self-paced) is selected
+        const modeSelected = form.querySelector('input[name^="mode"]:checked');
+        if (!modeSelected) {
+            isValid = false;
+            missingFields.push(`Mode selection (Virtual or Self-paced) for Participant ${participantNum}`);
+        }
+    });
+
+    // Validate billing information
+    const billingFields = {
+        'billing-first-name': 'Billing First Name',
+        'billing-last-name': 'Billing Last Name',
+        'billing-business-email': 'Billing Business Email',
+        'billing-job-title': 'Billing Job Title',
+        'billing-city': 'Billing City',
+        'billing-country': 'Billing Country',
+        'addressCompanyName': 'Billing Address',
+        'billingWorkPhone': 'Billing Work Phone',
+        'billingZipCode': 'Billing Zip Code',
+        'stateBilling': 'Billing State'
+    };
+
+    // Check billing fields
+    for (const [fieldId, fieldName] of Object.entries(billingFields)) {
+        const field = document.getElementById(fieldId) || document.querySelector(`[name="${fieldId}"]`);
+        if (!field) continue;
+
+        const value = field.value.trim();
+        if (!value) {
+            isValid = false;
+            field.classList.add('is-invalid');
+            
+            if (!firstEmptyField) {
+                firstEmptyField = field;
+            }
+            
+            missingFields.push(fieldName);
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    }
+
+    // Validate billing email format
+    const billingEmail = document.getElementById('billing-business-email');
+    if (billingEmail && billingEmail.value.trim()) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(billingEmail.value.trim())) {
+            isValid = false;
+            billingEmail.classList.add('is-invalid');
+            missingFields.push('Valid billing email address');
+            if (!firstEmptyField) {
+                firstEmptyField = billingEmail;
+            }
+        }
+    }
+
+    // Check if payment method is selected
+    const paymentMethods = document.querySelectorAll('input[name="paymentMode"]');
+    const paymentMethodSelected = Array.from(paymentMethods).some(method => method.checked);
+    if (!paymentMethodSelected) {
+        isValid = false;
+        missingFields.push('Payment Method');
+    }
+    
+
+    if (!isValid) {
+        if (firstEmptyField) {
+            firstEmptyField.focus();
+            firstEmptyField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // Show a single alert with all missing fields
+        alert('Please fill in the following required fields:\n\n• ' + missingFields.join('\n• '));
+        
+        return false;
+    }
+
+    // If all validations pass, check payment method and handle accordingly
+    const paymentMode = document.querySelector('input[name="paymentMode"]:checked')?.value;
+    
+    if (paymentMode === 'credit card') {
+        // Handle Stripe checkout
+        handleStripeCheckout(this);
+    } else {
+        // For other payment methods, submit normally
+        this.submit();
+    }
+});
+            </script>
+            <script>
+                // Coupon application logic
+                (function() {
+                    const applyBtn = document.getElementById('applyCouponBtn');
+                    const codeInput = document.getElementById('couponCode');
+                    const successEl = document.getElementById('couponSuccess');
+                    const errorEl = document.getElementById('couponError');
+                    const discountEl = document.getElementById('order-discount');
+                    const totalEl = document.getElementById('order-total');
+                    const hiddenCode = document.getElementById('appliedCouponCode');
+                    const hiddenDiscount = document.getElementById('appliedCouponDiscount');
+                    const subtotal = parseFloat('<%= course.price %>');
+
+                    applyBtn.addEventListener('click', async function() {
+                        const code = (codeInput.value || '').trim();
+                        successEl.classList.add('d-none');
+                        errorEl.classList.add('d-none');
+                        if (!code) return;
+                        try {
+                            const resp = await fetch('/coupons/validate', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ code, subtotal })
+                            });
+                            const data = await resp.json();
+                            if (!resp.ok || !data.valid) {
+                                errorEl.textContent = data.message || 'Invalid coupon';
+                                errorEl.classList.remove('d-none');
+                                hiddenCode.value = '';
+                                hiddenDiscount.value = '';
+                                discountEl.textContent = '$0.00';
+                                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+                                return;
+                            }
+                            hiddenCode.value = code.toUpperCase();
+                            hiddenDiscount.value = String(data.discount);
+                            discountEl.textContent = `$${Number(data.discount).toFixed(2)}`;
+                            totalEl.textContent = `$${Number(data.total).toFixed(2)}`;
+                            successEl.textContent = `Coupon applied: -$${Number(data.discount).toFixed(2)}`;
+                            successEl.classList.remove('d-none');
+                        } catch (err) {
+                            errorEl.textContent = 'Error applying coupon';
+                            errorEl.classList.remove('d-none');
+                        }
+                    });
+                })();
+                // Handle Stripe checkout
+                async function handleStripeCheckout(form) {
+                    // Show loading state
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = 'Processing...';
+                    submitBtn.disabled = true;
+                    
+                    try {
+                        // Submit form data to create enrollment
+                        const formData = new FormData(form);
+                        const response = await fetch('/enroll/', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
+                        const result = await response.json();
+                        console.log('Server response:', result);
+                        
+                        if (result.redirectToCheckout) {
+                            // Create Stripe Checkout session
+                            const checkoutResponse = await fetch('/create-checkout-session', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    enrollmentId: result.enrollmentId
+                                })
+                            });
+                            
+                            const checkoutData = await checkoutResponse.json();
+                            
+                            if (checkoutData.url) {
+                                // Redirect to Stripe Checkout
+                                window.location.href = checkoutData.url;
+                            } else {
+                                alert('Error creating payment session. Please try again.');
+                            }
+                        } else {
+                            console.error('Unexpected response format:', result);
+                            if (result.message) {
+                                alert('Error: ' + result.message);
+                            } else {
+                                alert('Error creating enrollment. Please try again.');
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again.');
+                        
+                        // Reset button state
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }
+                }
+            </script>
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://pdu-edu.org/sitemap.xml

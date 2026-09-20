@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow, max-snippet:500, max-image-preview:large, max-video-preview:-1">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdu-edu.org/sign-up">
+
+    <title>Sign Up - PDU ™</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/logo/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- select2 -->
+    <link rel="stylesheet" href="/assets/css/select2.min.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <!-- jquery-ui -->
+    <link rel="stylesheet" href="/assets/css/jquery-ui.css">
+    <!-- plyr Css -->
+    <link rel="stylesheet" href="/assets/css/plyr.css">
+    <!-- animate -->
+    <link rel="stylesheet" href="/assets/css/animate.css">
+
+    <link rel="stylesheet" href="/assets/css/aos.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+    <%- include('header'); -%>
+
+
+    <section class="breadcrumb py-120 bg-main-25 position-relative z-1 overflow-hidden mb-0">
+        <img src="assets/images/shapes/shape1.png" alt="shapes" class="shape one animation-rotation d-md-block d-none">
+        <img src="assets/images/shapes/shape2.png" alt="shapes" class="shape two animation-scalation d-md-block d-none">
+        <img src="assets/images/shapes/shape3.png" alt="shapes" class="shape eight animation-walking d-md-block d-none">
+        <img src="assets/images/shapes/shape5.png" alt="shapes" class="shape six animation-walking d-md-block d-none">
+        <img src="assets/images/shapes/shape4.png" alt="shapes" class="shape four animation-scalation">
+        <img src="assets/images/shapes/shape4.png" alt="shapes" class="shape nine animation-scalation">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb__wrapper">
+                        <h1 class="breadcrumb__title display-4 fw-semibold text-center"> Sign Up</h1>
+                        <ul class="breadcrumb__list d-flex align-items-center justify-content-center gap-4">
+                            <li class="breadcrumb__item">
+                                <a href="./"
+                                    class="breadcrumb__link text-neutral-500 hover-text-main-600 fw-medium">
+                                    <i class="text-lg d-inline-flex ph-bold ph-house"></i> Home</a>
+                            </li>
+                            <li class="breadcrumb__item">
+                                <i class="text-neutral-500 d-flex ph-bold ph-caret-right"></i>
+                            </li>
+                            <li class="breadcrumb__item">
+                                <a href="/courses"
+                                    class="breadcrumb__link text-neutral-500 hover-text-main-600 fw-medium"> </a>
+                            </li>
+                            <li class="breadcrumb__item d-none">
+                                <i class="text-neutral-500 d-flex ph-bold ph-caret-right"></i>
+                            </li>
+                            <li class="breadcrumb__item">
+                                <span class="text-main-two-600"> Sign Up </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="account py-120 position-relative">
+        <div class="container">
+            <div class="row gy-4 align-items-center">
+                <div class="col-lg-6">
+                    <div class="bg-main-25 border border-neutral-30 rounded-8 p-32">
+                        <div class="mb-40">
+                            <h3 class="mb-16 text-neutral-500">Let's Get Started!</h3>
+                            <p class="text-neutral-500">Please Enter your Email Address to Start your Online Application
+                            </p>
+                            <% if (message) { %>
+                                <div class="alert alert-danger my-5" role="alert">
+                                    <%= message %>
+                                </div>
+                                <% } %>
+                        </div>
+                        <form action="/register" method="POST">
+                            <div class="row gy-4">
+                                <div class="col-sm-12">
+                                    <label for="fname" class="fw-medium text-lg text-neutral-500 mb-16">
+                                        Name</label>
+                                    <input type="text" class="common-input rounded-pill" id="fname" name="name"
+                                        placeholder="Enter Your First Name">
+                                </div>
+                                
+                                <div class="col-sm-12">
+                                    <label for="email" class="fw-medium text-lg text-neutral-500 mb-16">Enter Your Email
+                                        ID</label>
+                                    <input type="email" class="common-input rounded-pill" id="email" name="email"
+                                        placeholder="Enter Your Email...">
+                                </div>
+                                <div class="col-sm-12">
+                                    <label for="password"
+                                        class="fw-medium text-lg text-neutral-500 mb-16">Password</label>
+                                    <div class="position-relative">
+                                        <input type="password" class="common-input rounded-pill" id="password" name="password"
+                                            placeholder="Enter Your Password...">
+                                        <span
+                                            class="toggle-password position-absolute top-50 inset-inline-end-0 me-16 translate-middle-y ph-bold ph-eye-closed"
+                                            id="#password"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <p class="text-neutral-500 mt-8">Have an accounts?
+                                        <a href="/sign-in"
+                                            class="fw-semibold text-main-600 hover-text-decoration-underline">Sign
+                                            In</a>
+                                    </p>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="mt-20">
+                                        <button type="submit" class="btn btn-main rounded-pill flex-center gap-8">
+                                            Sign up
+                                            <i class="ph-bold ph-arrow-up-right d-flex text-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-lg-block d-none">
+                    <div class="account-img">
+                        <img src="assets/images/thumbs/account-img.png" alt="account image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('footer'); -%>
+
+    <!-- Jquery js -->
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+        <!-- Bootstrap Bundle Js -->
+        <script src="/assets/js/boostrap.bundle.min.js"></script>
+        <!-- select2 Js -->
+        <script src="/assets/js/select2.min.js"></script>
+        <!-- Phosphor Icon Js -->
+        <script src="/assets/js/phosphor-icon.js"></script>
+        <!-- Slick js -->
+        <script src="/assets/js/slick.min.js"></script>
+        <!-- Slick js -->
+        <script src="/assets/js/counter.min.js"></script>
+        <!-- magnific popup -->
+        <script src="/assets/js/magnific-popup.min.js"></script>
+        <!-- Jquery Ui js -->
+        <script src="/assets/js/jquery-ui.js"></script>
+        <!-- plyr Js -->
+        <script src="/assets/js/plyr.js"></script>
+        <!-- vanilla Tilt -->
+        <script src="/assets/js/vanilla-tilt.min.js"></script>
+        <!-- wow -->
+        <script src="/assets/js/wow.min.js"></script>
+    
+        <script src="/assets/js/aos.js"></script>
+    
+        <!-- main js -->
+        <script src="/assets/js/main.js"></script>
+</body>
+
+</html>

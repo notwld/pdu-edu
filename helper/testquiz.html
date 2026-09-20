@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Translation</title>
+</head>
+<body>
+    <h1 id="title">Welcome to My Website</h1>
+    <p id="description">This is a sample text for translation.</p>
+    <button onclick="translateText('fr')">Translate to French</button>
+    <button onclick="translateText('es')">Translate to Spanish</button>
+    <button onclick="translateText('en')">Translate to English</button>
+
+    <script>
+        const apiKey = 'YOUR_GOOGLE_TRANSLATE_API_KEY';
+
+        async function translateText(targetLang) {
+            const textElements = document.querySelectorAll('h1, p');
+            const translations = await Promise.all(
+                Array.from(textElements).map(async (el) => {
+                    const response = await fetch(
+                        `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`,
+                        {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                q: el.innerText,
+                                target: targetLang
+                            })
+                        }
+                    );
+                    const data = await response.json();
+                    return data.data.translations[0].translatedText;
+                })
+            );
+
+            textElements.forEach((el, index) => {
+                el.innerText = translations[index];
+            });
+        }
+    </script>
+</body>
+</html>

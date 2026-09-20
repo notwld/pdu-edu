@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow, max-snippet:500, max-image-preview:large, max-video-preview:-1">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdu-edu.org/forums">
+
+    <title>Course Forums - PDU ™</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/logo/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/images/logo/favicon.png">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- select2 -->
+    <link rel="stylesheet" href="/assets/css/select2.min.css">
+    <!-- Slick -->
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <!-- jquery-ui -->
+    <link rel="stylesheet" href="/assets/css/jquery-ui.css">
+    <!-- plyr Css -->
+    <link rel="stylesheet" href="/assets/css/plyr.css">
+    <!-- animate -->
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <!-- aos -->
+    <link rel="stylesheet" href="/assets/css/aos.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+    <style>
+        .course-item__thumb img {
+            min-height: 250px !important;
+            max-height: 300px !important;
+            object-fit: cover !important;
+            width: 100%;
+        }
+        
+        .forum-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .course-item:hover .forum-overlay {
+            opacity: 1;
+        }
+        
+        .forum-stats {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .course-item:hover .forum-stats {
+            transform: translateY(0);
+        }
+        
+        .forum-stats .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #007bff;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .forum-stats .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-forums {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            color: white !important;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-forums:hover {
+            background: linear-gradient(45deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+            color: white !important;
+            text-decoration: none;
+        }
+        
+        .forum-metrics {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .metric-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .metric-number {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #007bff;
+            display: block;
+        }
+        
+        .metric-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+
+    <%- include('header'); -%>
+
+    <!-- Breadcrumb Section -->
+    <section class="breadcrumb py-120 bg-main-25 position-relative z-1 overflow-hidden mb-0">
+        <img src="/assets/images/shapes/shape1.png" alt="shape-1"
+            class="shape one animation-rotation d-md-block d-none">
+        <img src="/assets/images/shapes/shape2.png" alt="shape-2"
+            class="shape two animation-scalation d-md-block d-none">
+        <img src="/assets/images/shapes/shape3.png" alt="shape-3"
+            class="shape eight animation-walking d-md-block d-none">
+        <img src="/assets/images/shapes/shape5.png" alt="shape-4"
+            class="shape six animation-walking d-md-block d-none">
+        <img src="/assets/images/shapes/shape4.png" alt="shape-5" class="shape four animation-scalation">
+        <img src="/assets/images/shapes/shape4.png" alt="shape-6" class="shape nine animation-scalation">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb__wrapper">
+                        <h1 class="breadcrumb__title display-4 fw-semibold text-center">Course Forums</h1>
+                        <ul class="breadcrumb__list d-flex align-items-center justify-content-center gap-4">
+                            <li class="breadcrumb__item">
+                                <a href="/"
+                                    class="breadcrumb__link text-neutral-500 hover-text-main-600 fw-medium">
+                                    <i class="text-lg d-inline-flex ph-bold ph-house"></i> Home</a>
+                            </li>
+                            <li class="breadcrumb__item ">
+                                <i class="text-neutral-500 d-flex ph-bold ph-caret-right"></i>
+                            </li>
+                            <li class="breadcrumb__item">
+                                <span class="text-main-two-600">Forums</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-two py-120 position-relative z-1 bg-main-25">
+        <div class="position-relative">
+            <div class="container">
+                <div class="row gy-xl-0 gy-5 flex-wrap-reverse align-items-center">
+                    <div class="col-xl-6 pe-xl-5">
+                        <div class="about-two__thumb position-relative">
+                            <img src="/assets/images/thumbs/about-two-img.png"
+                                class="rounded-16 cover-img wow bounceIn" alt="forums image" data-tilt=""
+                                data-tilt-max="10" data-tilt-speed="500" data-tilt-perspective="5000"
+                                data-tilt-full-page-listening=""
+                                style="will-change: transform; transform: perspective(5000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1); visibility: visible; animation-name: bounceIn;">
+                            <span
+                                class="shadow-main-three w-80 h-80 flex-center bg-main-three-600 rounded-circle position-absolute inset-block-start-0 inset-inline-start-0 mt-40 ms--40 animation-upDown">
+                                <i class="ph ph-chats-circle text-white text-3xl"></i>
+                            </span>
+                            <div
+                                class="offer-message two px-24 py-12 rounded-12 bg-white fw-medium box-shadow-lg flex-align d-inline-flex gap-16 animation-upDown">
+                                <span
+                                    class="flex-shrink-0 w-48 h-48 bg-purple-400 text-white text-2xl flex-center rounded-circle"><i
+                                        class="ph ph-chat-circle-text"></i></span>
+                                <div>
+                                    <h6 class="mb-4">Active</h6>
+                                    <span class="">Discussions</span>
+                                </div>
+                            </div>
+                            <div
+                                class="offer-message style-two me-lg-0 me-24 px-24 py-12 rounded-12 bg-white fw-medium flex-align d-inline-flex gap-16 box-shadow-lg animation-upDown">
+                                <span
+                                    class="flex-shrink-0 w-48 h-48 bg-main-two-600 text-white text-2xl flex-center rounded-circle">
+                                    <i class="ph ph-users-three"></i>
+                                </span>
+                                <div>
+                                    <span class="text-lg text-neutral-700 d-block">
+                                        Community
+                                    </span>
+                                    <span class="text-neutral-500">Support</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="about-two-content">
+                            <div class="mb-40">
+                                <h2 class="mb-24 wow bounceIn"
+                                    style="visibility: visible; animation-name: bounceIn;">Connect with Your Learning Community</h2>
+                                <p class="text-neutral-500 wow bounceInUp"
+                                    style="visibility: visible; animation-name: bounceInUp;">
+                                    Join dynamic discussions with fellow students and instructors in your enrolled courses. Share insights, ask questions, and collaborate on projects to enhance your learning experience and build professional networks.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forums Grid View -->
+    <section class="course-grid-view py-120">
+        <div class="container">
+            <% if (courses && courses.length > 0) { %>
+                <div class="row gy-4">
+                    <% courses.forEach(course => { 
+                        const totalForums = course._count?.forums || 0;
+                        const activeForums = course.forums?.filter(f => f.isActive && (!f.expiresAt || new Date(f.expiresAt) > new Date())).length || 0;
+                        const totalComments = course.forums?.reduce((sum, forum) => sum + (forum._count?.comments || 0), 0) || 0;
+                    %>
+                        <div class="col-lg-4 col-sm-6 wow fadeInUp" data-aos="fade-up" data-aos-duration="200">
+                            <div class="course-item bg-white rounded-16 p-12 h-100 box-shadow-md">
+                                <div class="course-item__thumb rounded-12 overflow-hidden position-relative">
+                                    <img src="<%= course.thumbnail %>" alt="<%= course.title %> Forums"
+                                        class="course-item__img rounded-12 cover-img transition-2">
+                                    <div class="forum-overlay">
+                                        <div class="forum-stats">
+                                            <span class="stat-number"><%= totalForums %></span>
+                                            <span class="stat-label">Forum Topics</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="course-item__content position-relative">
+                                    <div class="">
+                                        <div class="mb-16 flex-align gap-16 flex-wrap">
+                                            <div class="py-8 px-20 rounded-pill flex-align gap-8 text-main-three-600 fw-medium bg-main-three-25">
+                                                <span class="text-xl d-flex">
+                                                    <i class="ph-bold ph-chats-circle"></i>
+                                                </span>
+                                                Discussion Hub
+                                            </div>
+                                        </div>
+                                        <h4 class="mb-10">
+                                            <span class="link text-line-2">
+                                                <%= course.title %> - Forums
+                                            </span>
+                                        </h4>
+                                        <span class="text-neutral-500 mb-28">
+                                            <%= course.description || 'Engage in meaningful discussions with fellow students and instructors.' %>
+                                        </span>
+                                        
+                                        <!-- Forum Metrics -->
+                                        <div class="forum-metrics mb-20">
+                                            <div class="metric-item">
+                                                <span class="metric-number"><%= activeForums %></span>
+                                                <span class="metric-label">Active</span>
+                                            </div>
+                                            <div class="metric-item">
+                                                <span class="metric-number"><%= totalComments %></span>
+                                                <span class="metric-label">Comments</span>
+                                            </div>
+                                            <div class="metric-item">
+                                                <span class="metric-number">
+                                                    <% if (course.forums && course.forums.length > 0) { %>
+                                                        <%= Math.max(...course.forums.map(f => new Date(f.createdAt).getDate())) %>d
+                                                    <% } else { %>
+                                                        N/A
+                                                    <% } %>
+                                                </span>
+                                                <span class="metric-label">Recent</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-between gap-8 pt-24 border-top border-neutral-50 mt-28 border-dashed border-0">
+                                        <div class="flex-align gap-8">
+                                            <span class="text-neutral-700 text-2xl d-flex"><i class="ph-bold ph-chats-circle"></i></span>
+                                            <span class="text-neutral-700 text-lg fw-medium">
+                                                <%= totalForums %> Topics
+                                            </span>
+                                        </div>
+                                        <a href="/my-learnings/courses/<%= course.slug %>/dashboard?tab=forum" class="btn-forums">
+                                            <i class="ph ph-arrow-right"></i>
+                                            Enter Forums
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <!-- Empty State -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <div class="py-120">
+                            <i class="ph ph-chats-circle text-neutral-300" style="font-size: 6rem; margin-bottom: 2rem;"></i>
+                            <h3 class="mb-24">No Courses Found</h3>
+                            <p class="text-neutral-500 mb-40">You haven't enrolled in any courses yet. Enroll in a course to access its discussion forums and connect with the learning community.</p>
+                            <a href="/courses" class="btn btn-main-600 rounded-pill flex-align d-inline-flex gap-8">
+                                <i class="ph ph-graduation-cap"></i>
+                                Browse Courses
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Why Choose Forums Section -->
+    <section class="choose-us pt-120 position-relative z-1 mash-bg-main mash-bg-main-two">
+        <img src="/assets/images/shapes/shape2.png" alt="shape 2" class="shape one animation-scalation">
+        <img src="/assets/images/shapes/shape2.png" alt="shape 2" class="shape six animation-scalation">
+
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-xl-6">
+                    <div class="choose-us__content">
+                        <div class="mb-40">
+                            <div class="flex-align gap-8 mb-16 wow bounceInDown">
+                                <span class="w-8 h-8 bg-main-600 rounded-circle"></span>
+                                <h5 class="text-main-600 mb-0">Why Join Our Forums?</h5>
+                            </div>
+                            <h2 class="mb-24 wow bounceIn">Collaborative Learning at Its Best</h2>
+                            <p class="text-neutral-500 mb-24 wow bounceInUp">
+                                Our course forums provide a collaborative environment where students can engage in meaningful discussions, share experiences, and learn from each other. Connect with peers, get expert guidance from instructors, and build lasting professional relationships.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <div class="certificate pb-40">
+        <div class="container container--lg">
+            <div class="certificate-box px-16 bg-main-600 rounded-16">
+                <div class="container">
+                    <div class="position-relative py-80">
+                        <div class="row align-items-center">
+                            <div class="col-xl-6">
+                                <div class="certificate__content">
+                                    <div class="flex-align gap-8 mb-16 wow bounceInDown">
+                                        <span class="w-8 h-8 bg-white rounded-circle"></span>
+                                        <h5 class="text-white mb-0">Join the Discussion</h5>
+                                    </div>
+                                    <h2 class="text-white mb-40 fw-medium wow bounceIn">
+                                        Ready to connect with your learning community?
+                                    </h2>
+                                    <a href="/courses"
+                                        class="btn btn-white rounded-pill flex-align d-inline-flex gap-8 hover-bg-main-800 wow bounceInUp">
+                                        Explore Courses
+                                        <i class="ph-bold ph-arrow-up-right d-flex text-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 d-xl-block d-none">
+                                <div class="certificate__thumb" data-aos="fade-up-left">
+                                    <img src="/assets/images/thumbs/certificate-img.png" alt="forums community"
+                                        data-tilt data-tilt-max="8" data-tilt-speed="500"
+                                        data-tilt-perspective="5000" data-tilt-full-page-listening>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('footer'); -%>
+
+     <!-- Jquery js -->
+     <script src="/assets/js/jquery-3.7.1.min.js"></script>
+     <!-- Bootstrap Bundle Js -->
+     <script src="/assets/js/boostrap.bundle.min.js"></script>
+     <!-- select2 Js -->
+     <script src="/assets/js/select2.min.js"></script>
+     <!-- Phosphor Icon Js -->
+     <script src="/assets/js/phosphor-icon.js"></script>
+     <!-- Slick js -->
+     <script src="/assets/js/slick.min.js"></script>
+     <!-- Slick js -->
+     <script src="/assets/js/counter.min.js"></script>
+     <!-- magnific popup -->
+     <script src="/assets/js/magnific-popup.min.js"></script>
+     <!-- Jquery Ui js -->
+     <script src="/assets/js/jquery-ui.js"></script>
+     <!-- plyr Js -->
+     <script src="/assets/js/plyr.js"></script>
+     <!-- vanilla Tilt -->
+     <script src="/assets/js/vanilla-tilt.min.js"></script>
+     <!-- wow -->
+     <script src="/assets/js/wow.min.js"></script>
+
+     <script src="/assets/js/aos.js"></script>
+
+     <!-- main js -->
+     <script src="/assets/js/main.js"></script>
+
+    <script>
+        // Add smooth animations on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.course-item');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Add click animation to forum buttons
+        document.querySelectorAll('.btn-forums').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+
+        // Add click animation to forum buttons
+        document.querySelectorAll('.btn-forums').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+
+</html> 

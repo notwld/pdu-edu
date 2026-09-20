@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Certificate</title>
+  <style>
+    body {
+      padding: 2.5rem 0;
+      background-color: #f9fafb;
+    }
+    .container {
+      max-width: 64rem;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      padding: 2.5rem;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .text-blue {
+      color: #2563eb;
+    }
+    .text-gray {
+      color: #4b5563;
+    }
+    .font-bold {
+      font-weight: 700;
+    }
+    .font-medium {
+      font-weight: 500;
+    }
+    .text-lg {
+      font-size: 1.125rem;
+    }
+    .text-2xl {
+      font-size: 1.5rem;
+    }
+    .text-3xl {
+      font-size: 1.875rem;
+    }
+    .text-4xl {
+      font-size: 2.25rem;
+    }
+    .mb-4 {
+      margin-bottom: 1rem;
+    }
+    .mt-2 {
+      margin-top: 0.5rem;
+    }
+    .mt-4 {
+      margin-top: 1rem;
+    }
+    .mt-6 {
+      margin-top: 1.5rem;
+    }
+    .mt-10 {
+      margin-top: 2.5rem;
+    }
+    .border-top {
+      border-top: 2px solid #d1d5db;
+    }
+    .text-sm {
+      font-size: 0.875rem;
+    }
+    .flex {
+      display: flex;
+    }
+    .justify-between {
+      justify-content: space-between;
+    }
+    .items-center {
+      align-items: center;
+    }
+    .flex-col {
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold text-blue mb-4">Certificate of Completion</h1>
+      <p class="text-lg text-gray">This certifies that</p>
+      <h2 class="text-3xl font-medium text-gray mt-4">{{recipientName}}</h2>
+      <p class="text-lg text-gray mt-4">has successfully completed the course</p>
+      <h3 class="text-2xl font-medium text-gray mt-2">{{courseName}}</h3>
+      <p class="text-gray mt-6">Awarded on</p>
+      <p class="text-lg font-medium text-gray">{{date}}</p>
+    </div>
+
+    <table style="width: 100%; margin-top: 40px; border-spacing: 0; border-collapse: collapse;">
+      <tr>
+        <td style="text-align: center; vertical-align: top; width: 50%;">
+          <hr style="border: 1px solid #d1d5db; width: 80%; margin: 0 auto 10px;">
+          <p style="font-size: 14px; color: #4b5563; margin: 0;">Instructor</p>
+          <p style="font-weight: 500; color: #4b5563; margin: 0;">{{instructorName}}</p>
+        </td>
+        <td style="text-align: center; vertical-align: bottom; width: 50%;">
+          <hr style="border: 1px solid #d1d5db; width: 80%; margin: 0 auto 10px;">
+          <p style="font-size: 14px; color: #4b5563; margin: 0;">Institution</p>
+          <p style="font-weight: 500; color: #4b5563; margin: 0;">{{institutionName}}</p>
+        </td>
+      </tr>
+    </table>
+    
+    <p class="text-center text-sm text-gray mt-6">This certificate is issued by {{institutionName}} and is valid for professional and academic recognition.</p>
+  </div>
+</body>
+</html>
