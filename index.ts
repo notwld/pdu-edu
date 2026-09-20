@@ -22,6 +22,8 @@ import session from 'express-session';
 
 import jwt from 'jsonwebtoken';
 import bcyrpt from 'bcryptjs';
+import path from 'path';
+import fs from 'fs';
 import countries from "./public/assets/js/countries";
 import { PrismaClient } from '@prisma/client';
 import { connect } from 'node:http2';
@@ -32,6 +34,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const pb_key = process.env.STRIPE_PUBLISHABLE_KEY;
 const prisma = new PrismaClient();
 const prismaAny: any = prisma;
+const UPLOAD_DIR = process.env.VERCEL ? '/tmp/uploads' : path.join(process.cwd(), 'uploads');
+fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
 class PrismaSessionStore extends session.Store {
     constructor() {
@@ -98,12 +102,16 @@ app.use(session({
     saveUninitialized: false,
     store: new PrismaSessionStore(),
     cookie: {
-        secure: false,
+        secure: !!process.env.VERCEL,
         maxAge: 1000 * 60 * 60 * 24 * 7,
     },
 }))
+if (process.env.VERCEL) {
+    app.set('trust proxy', 1);
+}
+app.set('views', path.join(process.cwd(), 'views'));
 app.set("view engine", "ejs")
-app.use(express.static('public'));
+app.use(express.static(path.join(process.cwd(), 'public')));
 const PORT = process.env.PORT || 3000;
 
 
@@ -120,8 +128,7 @@ app.get('/get-session', authorize, (req: Request, res: Response) => {
     res.json(req.session.token);
 });
 app.get('/uploads/:name', (req: Request, res: Response) => {
-    console.log(__dirname + '/uploads/' + req.params.name);
-    res.sendFile(__dirname + '/uploads/' + req.params.name);
+    res.sendFile(path.join(UPLOAD_DIR, req.params.name));
 });
 app.use("/user", User);
 app.use('/test', Test)
@@ -135,10 +142,10 @@ app.use("/forum", Forum);
 app.use('/api/coupons', Coupons);
 
 app.get("/sitemap.xml", async (req: Request, res: Response) => {
-    res.sendFile(__dirname + '/public/sitemap.xml');
+    res.sendFile(path.join(process.cwd(), 'public/sitemap.xml'));
 });
 app.get("/robots.txt", async (req: Request, res: Response) => {
-    res.sendFile(__dirname + '/public/robots.txt');
+    res.sendFile(path.join(process.cwd(), 'public/robots.txt'));
 });
 app.get('/test/:id', async (req: Request, res: Response) => {
     try {
@@ -2302,6 +2309,10 @@ app.get('/payment-cancelled', async (req: Request, res: Response) => {
     }
 });
 
-http.createServer(app).listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+export default app;
+
+if (!process.env.VERCEL) {
+    http.createServer(app).listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+    });
+}

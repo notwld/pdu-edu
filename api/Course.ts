@@ -13,9 +13,11 @@ const { subDays, startOfWeek, endOfWeek } = require('date-fns');
 
 const router = Router();
 const prisma = new PrismaClient();
+const UPLOAD_DIR = process.env.VERCEL ? '/tmp/uploads' : 'uploads';
+fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/");
+        cb(null, UPLOAD_DIR);
     },
     filename: (req, file, cb) => {
         // Generate a unique filename to avoid conflicts
@@ -193,10 +195,10 @@ router.post("/create-course", authorize, (req: any, res: any) => {
 
         try {
             const course = JSON.parse(req.body.course);
-            const uploadDir = "uploads/";
+            const uploadDir = UPLOAD_DIR;
             console.log(course);
             if (!fs.existsSync(uploadDir)) {
-                fs.mkdirSync(uploadDir);
+                fs.mkdirSync(uploadDir, { recursive: true });
             }
 
             const files = req.files;

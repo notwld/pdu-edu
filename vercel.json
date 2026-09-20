@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "index.ts": {
+      "includeFiles": "{views/**,helper/**,prisma/**}",
+      "maxDuration": 60
+    }
+  }
+}

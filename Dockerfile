@@ -12,7 +12,7 @@ RUN npm ci
 COPY . /app
 
 # Build the application
-RUN npm run build
+RUN npm run build:dist
 
 # Remove dev dependencies to reduce image size
 RUN npm prune --production

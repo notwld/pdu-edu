@@ -250,7 +250,9 @@ function transformToMCQ(data: InputData): MCQ {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/"); 
+        const uploadDir = process.env.VERCEL ? '/tmp/uploads' : 'uploads';
+        fs.mkdirSync(uploadDir, { recursive: true });
+        cb(null, uploadDir); 
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + "-" + file.originalname); 
