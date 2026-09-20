@@ -56,6 +56,9 @@ importers:
       nodemailer:
         specifier: ^6.9.16
         version: 6.10.1
+      prisma:
+        specifier: 6.7.0
+        version: 6.7.0(typescript@5.9.3)
       stripe:
         specifier: ^17.5.0
         version: 17.7.0
@@ -99,9 +102,6 @@ importers:
       nodemon:
         specifier: ^3.1.7
         version: 3.1.10
-      prisma:
-        specifier: 6.7.0
-        version: 6.7.0(typescript@5.9.3)
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.19.0)(typescript@5.9.3)
