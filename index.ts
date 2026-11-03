@@ -2212,20 +2212,35 @@ app.get('/invoice/:enrollmentId', async (req: Request, res: Response) => {
                         }
                     });
 
-                    // Enroll participants in the course
-                    if (enrollment.participants && enrollment.course) {
+                    // Grant course access to purchaser + participants
+                    if (enrollment.course) {
                         const courseId = enrollment.course.id;
+                        const userIds = new Set<number>();
+                        if (enrollment.userId) userIds.add(enrollment.userId);
+                        for (const participant of enrollment.participants || []) {
+                            if (!participant.businessEmail) continue;
+                            const participantUser = await prisma.user.findFirst({
+                                where: {
+                                    email: {
+                                        equals: participant.businessEmail,
+                                        mode: "insensitive",
+                                    },
+                                },
+                                select: { id: true },
+                            });
+                            if (participantUser) userIds.add(participantUser.id);
+                        }
                         await Promise.all(
-                            enrollment.participants.map(async (participant) => {
-                                await prisma.user.update({
-                                    where: { email: participant.businessEmail },
+                            [...userIds].map((id) =>
+                                prisma.user.update({
+                                    where: { id },
                                     data: {
                                         coursesTaken: {
-                                            connect: { id: courseId }
-                                        }
-                                    }
-                                });
-                            })
+                                            connect: { id: courseId },
+                                        },
+                                    },
+                                })
+                            )
                         );
                     }
 
